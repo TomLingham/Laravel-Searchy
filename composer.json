@@ -1,0 +1,20 @@
+{
+    "name": "tom-lingham/searchy",
+    "description": "",
+    "authors": [
+        {
+            "name": "Tom Lingham",
+            "email": "tjlingham@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "illuminate/support": "4.2.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "TomLingham\\Searchy": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
