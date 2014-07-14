@@ -68,10 +68,10 @@ Currently there are only three drivers: Simple, Fuzzy and Levenshtein (Experimen
 Extending
 ----------------------------------------
 #### Drivers
-It's really easy to roll your own search drivers. Simply create a class that extends TomLingham\Searchy\SearchDrivers\BaseSearchDriver and add a property called `$matchers` with an array of matcher classes as the key and the multiplier as the values. You can pick from the classes that are already included with Searchy or you can create your own.
+It's really easy to roll your own search drivers. Simply create a class that extends `TomLingham\Searchy\SearchDrivers\BaseSearchDriver` and add a property called `$matchers` with an array of matcher classes as the key and the multiplier for each matcher as the values. You can pick from the classes that are already included with Searchy or you can create your own.
 
 #### Matchers
-To create your own matchers, you can create your own class that extends TomLingham\Searchy\Matchers\BaseMatcher and (for simple Matchers) override the `formatQuery` method to return a string formatted with `%` wildcards in required locations. For more advanced extensions you may need to override the `buildQuery` method and others as well.
+To create your own matchers, you can create your own class that extends `TomLingham\Searchy\Matchers\BaseMatcher` and (for simple Matchers) override the `formatQuery` method to return a string formatted with `%` wildcards in required locations. For more advanced extensions you may need to override the `buildQuery` method and others as well.
 
 
 Contributing & Reporting Bugs
