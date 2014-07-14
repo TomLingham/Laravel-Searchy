@@ -3,6 +3,7 @@ Laravel 4+ Searchy
 ### Database Searching Made Easy
 
 Searchy is an easy-to-use Laravel 4+ package that makes running user driven searches on data in your models simple and effective.
+It uses pseudo fuzzy searching and other weighted mechanics depending on the search driver that you have enabled.
 It requires no other software installed on your server (so a bit slower than dedicated search programs) but can be setup and ready to go in minutes.
 
 Installation
