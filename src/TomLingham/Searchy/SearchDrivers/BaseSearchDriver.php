@@ -48,8 +48,6 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 			->orderBy(\Config::get('searchy::fieldName'), 'desc')
 			->having(\Config::get('searchy::fieldName'),'>', 0);
 
-			dd($results->toSql());
-
 		return $results;
 	}
 
