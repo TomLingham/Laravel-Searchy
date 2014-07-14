@@ -7,6 +7,11 @@ It requires no other software installed on your server (so a bit slower than ded
 
 Installation
 ----------------------------------------
+Add to your composer.json file under `require`:
+```
+"tom-lingham/searchy" : "dev-master"
+```
+
 Add the service provider to the `providers` array in Laravel's app/config/app.php file:
 ```
 'TomLingham\Searchy\SearchyServiceProvider'
