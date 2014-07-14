@@ -14,17 +14,12 @@ class TimesInStringMatcher extends BaseMatcher
 {
 
 	/**
-	 * @var int
-	 */
-	protected $multiplier = 8;
-
-	/**
 	 * @param $column
 	 * @param $searchString
 	 * @return mixed|string
 	 */
-	public function buildQueryString( $column, $searchString ){
-
+	public function buildQueryString( $column, $searchString )
+	{
 		$query = "{$this->multiplier} * ROUND ((
 			CHAR_LENGTH($column) - CHAR_LENGTH( REPLACE ( LOWER($column), lower('$searchString'), ''))
 		) / LENGTH('$searchString'))";

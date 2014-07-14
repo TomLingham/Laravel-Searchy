@@ -24,10 +24,9 @@ class LevenshteinMatcher extends BaseMatcher
 	 * @param $searchString
 	 * @return mixed|string
 	 */
-	public function buildQueryString( $column, $searchString ){
-
+	public function buildQueryString( $column, $searchString )
+	{
 		return "levenshtein($column, '$searchString', {$this->sensitivity})";
-
 	}
 
 }

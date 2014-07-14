@@ -11,7 +11,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	/**
 	 * @var array
 	 */
-	protected $fields;
+	protected $searchFields;
 
 	/**
 	 * @var
@@ -25,10 +25,11 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 
 	/**
 	 * @param null $table
-	 * @param array $fields
+	 * @param array $searchFields
 	 */
-	public function __construct( $table = null, $fields = [] ){
-		$this->fields = $fields;
+	public function __construct( $table = null, $searchFields = [] )
+	{
+		$this->searchFields = $searchFields;
 		$this->table = $table;
 	}
 
@@ -37,14 +38,15 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 * @return \Illuminate\Database\Query\Builder|mixed|static
 	 * @throws \Whoops\Example\Exception
 	 */
-	public function query( $searchString ){
+	public function query( $searchString )
+	{
 
 		if(\Config::get('searchy::sanitize'))
 			$this->searchString = $this->sanitize($searchString);
 
 		$results = \DB::table($this->table)
-			->select( \DB::raw('*') )
-			->addSelect($this->buildSelectQuery( $this->fields ))
+			->select('*')
+			->addSelect($this->buildSelectQuery( $this->searchFields ))
 			->orderBy(\Config::get('searchy::fieldName'), 'desc')
 			->having(\Config::get('searchy::fieldName'),'>', 0);
 
@@ -52,14 +54,16 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	}
 
 	/**
-	 * @param array $fields
+	 * @param array $searchFields
 	 * @return array|\Illuminate\Database\Query\Expression
 	 */
-	protected function buildSelectQuery( array $fields ){
+	protected function buildSelectQuery( array $searchFields )
+	{
+
 		$query = [];
 
-		foreach ($fields as $field) {
-			$query[] = $this->buildSelectCriteria( $field );
+		foreach ($searchFields as $searchField) {
+			$query[] = $this->buildSelectCriteria( $searchField );
 		}
 
 		$query = \DB::raw(implode(' + ', $query) . ' AS ' . \Config::get('searchy::fieldName'));
@@ -68,14 +72,16 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	}
 
 	/**
-	 * @param null $field
+	 * @param null $searchField
 	 * @return string
 	 */
-	protected function buildSelectCriteria( $field = null ) {
+	protected function buildSelectCriteria( $searchField = null )
+	{
+
 		$criteria = [];
 
 		foreach( $this->matchers as $matcher => $multiplier){
-			$criteria[] = $this->makeMatcher( $field, $matcher, $multiplier );
+			$criteria[] = $this->makeMatcher( $searchField, $matcher, $multiplier );
 		}
 
 		return implode(' + ', $criteria);
@@ -83,17 +89,17 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 
 
 	/**
-	 * @param $field
+	 * @param $searchField
 	 * @param $matcherClass
 	 * @param $multiplier
 	 * @return mixed
 	 */
-	protected function makeMatcher( $field, $matcherClass, $multiplier )
+	protected function makeMatcher( $searchField, $matcherClass, $multiplier )
 	{
 
 		$matcher = new $matcherClass( $multiplier );
 
-		return $matcher->buildQueryString( $field, $this->searchString );
+		return $matcher->buildQueryString( $searchField, $this->searchString );
 
 	}
 
@@ -101,7 +107,8 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 * @param $searchString
 	 * @return mixed
 	 */
-	private function sanitize( $searchString ) {
+	private function sanitize( $searchString )
+	{
 		return preg_replace(\Config::get('searchy::sanitizeRegEx'), '', $searchString);
 	}
 

@@ -10,8 +10,19 @@ use TomLingham\Searchy\SearchDrivers\FuzzySearchDriver;
 class SearchBuilder {
 
 
+	/**
+	 * @var
+	 */
 	private $table;
+
+	/**
+	 * @var
+	 */
 	private $searchFields;
+
+	/**
+	 * @var
+	 */
 	private $driverName;
 
 	/**
@@ -46,18 +57,19 @@ class SearchBuilder {
 	public function driver( $driverName )
 	{
 		$this->driverName = $driverName;
+
 		return $this;
 	}
 
 	/**
 	 * @param $table
-	 * @param $fields
+	 * @param $searchFields
 	 * @return mixed
 	 */
-	public function __call( $table, $fields )
+	public function __call( $table, $searchFields )
 	{
 
-		return call_user_func_array([$this->search( $table ), 'fields'], $fields);
+		return call_user_func_array([$this->search( $table ), 'fields'], $searchFields);
 
 	}
 
@@ -66,13 +78,19 @@ class SearchBuilder {
 	 */
 	private function makeDriver()
 	{
-		if (! $this->driverName){
-			$driverName = \Config::get('searchy::default');
-		} else {
+		// Check if default driver is being overridden, otherwise
+		// load the default
+		if ( $this->driverName ){
 			$driverName = $this->driverName;
+		} else {
+			$driverName = \Config::get('searchy::default');
 		}
+
+		// Gets the details for the selected driver from the configuration file
 		$driverMap = \Config::get("searchy::drivers.$driverName");
 
+		// Create a new instance of the selected drivers 'class' and pass
+		// through table and fields to search
 		return new $driverMap['class']( $this->table, $this->searchFields );
 
 	}

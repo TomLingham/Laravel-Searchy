@@ -11,7 +11,8 @@ abstract class BaseMatcher implements MatcherInterface
 
 	protected $multiplier;
 
-	public function __construct( $multiplier ){
+	public function __construct( $multiplier )
+	{
 		$this->multiplier = $multiplier;
 	}
 
@@ -22,8 +23,8 @@ abstract class BaseMatcher implements MatcherInterface
 	 * @param $searchString
 	 * @return mixed|string
 	 */
-	public function buildQueryString( $column, $searchString ){
-
+	public function buildQueryString( $column, $searchString )
+	{
 		if ( method_exists($this, 'formatSearchString') )
 			$searchString = $this->formatSearchString( $searchString );
 

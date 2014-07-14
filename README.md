@@ -1,8 +1,9 @@
-Laravel 4+ Searchy - Searching Made Easy
+Laravel 4+ Searchy
 ========================================
+### Database Searching Made Easy
 
-Searchy is an easy-to-use Laravel 4+ package that makes running user driven searches on data in your models easy and effective.
-It requires no other software installed on your server (so a bit slower) but can be setup and ready to go in minutes.
+Searchy is an easy-to-use Laravel 4+ package that makes running user driven searches on data in your models simple and effective.
+It requires no other software installed on your server (so a bit slower than dedicated search programs) but can be setup and ready to go in minutes.
 
 Installation
 ----------------------------------------
@@ -41,7 +42,7 @@ Configuration
 ----------------------------------------
 You can publish the configuration file to override the settings by running `php artisan config:publish tom-lingham/searchy`
 
-You can set the default driver to use for ssearches in the configuration file. Your options (At this stage) are: `fuzzy`, `simple` and `levenshtein`.
+You can set the default driver to use for searches in the configuration file. Your options (At this stage) are: `fuzzy`, `simple` and `levenshtein`.
 
 You can also override these methods using the following syntax when running a search:
 
@@ -59,12 +60,26 @@ Drivers are simply a specified group of 'Matchers' which match strings based on 
 Currently there are only three drivers: Simple, Fuzzy and Levenshtein (Experimental).
 
 
+Extending
+----------------------------------------
+#### Drivers
+It's really easy to roll your own search drivers. Simply create a class that extends TomLingham\Searchy\SearchDrivers\BaseSearchDriver and add a property called `$matchers` with an array of matcher classes as the key and the multiplier as the values. You can pick from the classes that are already included with Searchy or you can create your own.
 
-### Road Map
+#### Matchers
+To create your own matchers, you can create your own class that extends TomLingham\Searchy\Matchers\BaseMatcher and (for simple Matchers) override the `formatQuery` method to return a string formatted with `%` wildcards in required locations. For more advanced extensions you may need to override the `buildQuery` method and others as well.
 
-So, the intention is to (in the future):
+
+Contributing & Reporting Bugs
+----------------------------------------
+If you would like to improve on the code that is here, feel free to submit a pull request.
+If you find any bugs, submit them here and I will respond as soon as possible. Plesae make sure to include as much information as possible.
+
+
+Road Map
+----------------------------------------
+Too the future! The intention is to, eventually:
 
 1. Remove Searchy's dependancy on Laravel
-2. Include more drivers for more advanced searching (Including file searching, indexing and more)
+2. Include more drivers for more advanced searching (Including file system searching, indexing and more)
 3. Implement an AJAX friendly interface for searching models and implementing autosuggestion features on the front end
 4. Speed up search performance

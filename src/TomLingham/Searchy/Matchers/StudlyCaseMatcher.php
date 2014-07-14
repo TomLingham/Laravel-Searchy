@@ -17,21 +17,17 @@ class StudlyCaseMatcher extends BaseMatcher
 	protected $operator = 'LIKE BINARY';
 
 	/**
-	 * @var int
-	 */
-	protected $multiplier = 32;
-
-	/**
 	 * @param $searchString
 	 * @return string
 	 */
-	public function formatSearchString( $searchString ) {
+	public function formatSearchString( $searchString )
+	{
 
 		return implode( '%', str_split(strtoupper( $searchString ))) . '%';
 	}
 
-	public function buildQueryString( $column, $searchString ){
-
+	public function buildQueryString( $column, $searchString )
+	{
 		$query = "IF( CHAR_LENGTH( TRIM($column)) = CHAR_LENGTH( REPLACE( TRIM($column), ' ', '')) AND $column {$this->operator} '{$this->formatSearchString($searchString)}', {$this->multiplier}, 0)";
 
 		return $query;

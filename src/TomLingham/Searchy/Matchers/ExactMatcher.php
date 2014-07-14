@@ -11,14 +11,10 @@
 
 class ExactMatcher extends BaseMatcher
 {
+
 	/**
 	 * @var string
 	 */
 	protected $operator = '=';
-
-	/**
-	 * @var int
-	 */
-	protected $multiplier = 100;
 
 }

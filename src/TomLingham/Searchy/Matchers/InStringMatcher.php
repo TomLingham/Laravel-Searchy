@@ -18,15 +18,11 @@ class InStringMatcher extends BaseMatcher
 	protected $operator = 'LIKE';
 
 	/**
-	 * @var int
-	 */
-	protected $multiplier = 30;
-
-	/**
 	 * @param $searchString
 	 * @return string
 	 */
-	public function formatSearchString( $searchString ){
+	public function formatSearchString( $searchString )
+	{
 		return "%$searchString%";
 	}
 }

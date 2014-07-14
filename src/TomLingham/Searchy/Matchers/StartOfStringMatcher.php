@@ -18,15 +18,11 @@ class StartOfStringMatcher extends BaseMatcher
 	protected $operator = 'LIKE';
 
 	/**
-	 * @var int
-	 */
-	protected $multiplier = 50;
-
-	/**
 	 * @param $searchString
 	 * @return string
 	 */
-	public function formatSearchString( $searchString ) {
+	public function formatSearchString( $searchString )
+	{
 		return "$searchString%";
 	}
 }

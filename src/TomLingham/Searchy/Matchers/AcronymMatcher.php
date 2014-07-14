@@ -17,16 +17,11 @@ class AcronymMatcher extends BaseMatcher
 	protected $operator = 'LIKE';
 
 	/**
-	 * @var int
-	 */
-	protected $multiplier = 42;
-
-	/**
 	 * @param $searchString
 	 * @return mixed|string
 	 */
-	public function formatSearchString( $searchString ) {
-
+	public function formatSearchString( $searchString )
+	{
 		return implode( '% ', str_split(strtoupper( $searchString ))) . '%';
 	}
 }

@@ -17,15 +17,11 @@ class ConsecutiveCharactersMatcher extends BaseMatcher
 	protected $operator = 'LIKE';
 
 	/**
-	 * @var int
-	 */
-	protected $multiplier = 40;
-
-	/**
 	 * @param $searchString
 	 * @return string
 	 */
-	public function formatSearchString( $searchString ) {
+	public function formatSearchString( $searchString )
+	{
 		return '%'.implode('%', str_split( $searchString )).'%';
 	}
 
@@ -34,8 +30,8 @@ class ConsecutiveCharactersMatcher extends BaseMatcher
 	 * @param $rawString
 	 * @return mixed|string
 	 */
-	public function buildQueryString( $column, $rawString ){
-
+	public function buildQueryString( $column, $rawString )
+	{
 		$searchString = $this->formatSearchString( $rawString );
 
 		$query = "IF($column {$this->operator} '$searchString', ROUND({$this->multiplier} * (CHAR_LENGTH( '$rawString' ) / CHAR_LENGTH( REPLACE($column, ' ', '') ))), 0)";
