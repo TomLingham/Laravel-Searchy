@@ -14,12 +14,12 @@ Add to your composer.json file under `require`:
 ```
 
 Add the service provider to the `providers` array in Laravel's app/config/app.php file:
-```
+```php
 'TomLingham\Searchy\SearchyServiceProvider'
 ```
 
 Add the Alias to the `aliases` array in Laravel's app/config/app.php file:
-```
+```php
 'Searchy' => 'TomLingham\Searchy\SearchBuilder'
 ```
 
@@ -29,17 +29,17 @@ Usage
 To use Searchy, you can take advantage of magic methods.
 
 If you are searching the name column/field of users in a `users` table you would, for example run:
-```
+```php
 $users = Searchy::users('name')->query('John Smith');
 ```
 you can also write this as:
 
-```
+```php
 $users = Searchy::search('users')->query('John Smith');
 ```
 These example both return a Laravel DB Query Builder Object, so you will need to chain `get()` to actually return the results in a usable object:
 
-```
+```php
 $users = Searchy::search('users')->query('John Smith')->get();
 ```
 
@@ -47,7 +47,7 @@ $users = Searchy::search('users')->query('John Smith')->get();
 You can also add multiple arguments ot the list fo fields/columns ot search by.
 
 For example, if you want to search the name, email address and username of a user, you might run:
-```
+```php
 $users = Searchy::users('name', 'email', 'username')->query('John Smith');
 ```
 
@@ -60,7 +60,7 @@ You can set the default driver to use for searches in the configuration file. Yo
 
 You can also override these methods using the following syntax when running a search:
 
-```
+```php
 Searchy::driver('fuzzy')->users('name')->query('Bat Man')->get();
 ```
 
@@ -72,6 +72,106 @@ Searchy takes advantage of 'Drivers' to handle matching various conditions of th
 Drivers are simply a specified group of 'Matchers' which match strings based on different conditions.
 
 Currently there are only three drivers: Simple, Fuzzy and Levenshtein (Experimental).
+
+#### Simple Search Driver
+The Simple search driver only uses 3 matchers each with the relevant multipliers that best suited my testing environments.
+
+```php
+
+	protected $matchers = [
+		'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
+		'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
+		'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
+	];
+	
+```
+
+
+#### Fuzzy Search Driver
+The Fuzzy Search Driver is simply another group of matchers setup as follows. The multipliers are what I have used, but feel free to change these or roll your own driver with the same matchers and change the multipliers to suit.
+
+```php
+
+	protected $matchers = [
+		'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
+		'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
+		'TomLingham\Searchy\Matchers\AcronymMatcher'               => 42,
+		'TomLingham\Searchy\Matchers\ConsecutiveCharactersMatcher' => 40,
+		'TomLingham\Searchy\Matchers\StartOfWordsMatcher'          => 35,
+		'TomLingham\Searchy\Matchers\StudlyCaseMatcher'            => 32,
+		'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
+		'TomLingham\Searchy\Matchers\TimesInStringMatcher'         => 8,
+	];
+	
+```
+
+#### Levenshtein Search Driver (Experimental)
+The Levenshtein Search Driver uses the Levenshetein Distance to calculate the 'distance' between strings. It requires that you have a stored procedure in MySQL similar to the following `levenshtein( string1, string2 )`. There is an SQL file with a suitable function in the `res` folder - feel free to use this one.
+
+```php
+
+	protected $matchers = [
+		'TomLingham\Searchy\Matchers\LevenshteinMatcher' => 100
+	];
+	
+```
+
+Matchers
+----------------------------------------
+
+#### ExactMatcher
+Matches an exact string and applies a high multiplier to bring any exact matches to the top When sanitize is on, if the expression strips some of the characters from the search query then this may not be able to match against a string despite entering in an exact match.
+
+
+#### StartOfStringMatcher
+Matches Strings that begin with the search string.
+
+For example, a search for 'hel' would match; 'Hello World' or 'helping hand'
+
+
+#### AcronymMatcher
+Matches strings for Acronym 'like' matches but does NOT return Studly Case Matches
+
+For example, a search for 'fb' would match; 'foo bar' or 'Fred Brown' but not 'FreeBeer'.
+
+
+#### ConsecutiveCharactersMatcher
+
+Matches strings that include all the characters in the search relatively positioned within the string. It also calculates the percentage of characters in the string that are matched and applies the multiplier accordingly.
+
+For Example, a search for 'fba' would match; 'Foo Bar' or 'Afraid of bats', but not 'fabulous'
+
+
+#### StartOfWordsMatcher
+
+Matches the start of each word against each word in a search.
+
+For example, a search for 'jo ta' would match; 'John Taylor' or 'Joshua B. Takeshi'
+
+
+#### StudlyCaseMatcher
+
+Matches Studly Case strings using the first letters of the words only
+
+For example a search for 'hp' would match; 'HtmlServiceProvider' or 'HashParser' but not 'hasProvider'
+
+
+#### InStringMatcher
+
+Matches against any occurrences of a string within a string and is case-insensitive.
+
+For example, a search for 'smi' would match; 'John Smith' or 'Smiley Face'
+
+
+#### TimesInStringMatcher
+Matches a string based on how many times the search string appears inside the string
+it then applies the multiplier for each occurrence.
+
+For example, a search for 'tha' would match; 'I hope that that cat has caught that mouse' (3 x multiplier) or 'Thanks, it was great!' (1 x multiplier)
+
+
+#### LevenshteinMatcher
+See *Levenshtein Driver*
 
 
 Extending
