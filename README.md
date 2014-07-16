@@ -43,10 +43,18 @@ These example both return a Laravel DB Query Builder Object, so you will need to
 $users = Searchy::search('users')->query('John Smith')->get();
 ```
 
+#### Searching multiple Columns
+You can also add multiple arguments ot the list fo fields/columns ot search by.
+
+For example, if you want to search the name, email address and username of a user, you might run:
+```
+$users = Searchy::users('name', 'email', 'username')->query('John Smith');
+```
+
 
 Configuration
 ----------------------------------------
-You can publish the configuration file to override the settings by running `php artisan config:publish tom-lingham/searchy`
+You can publish the configuration file to your `app` directory and override the settings by running `php artisan config:publish tom-lingham/searchy`
 
 You can set the default driver to use for searches in the configuration file. Your options (At this stage) are: `fuzzy`, `simple` and `levenshtein`.
 
@@ -78,12 +86,12 @@ To create your own matchers, you can create your own class that extends TomLingh
 Contributing & Reporting Bugs
 ----------------------------------------
 If you would like to improve on the code that is here, feel free to submit a pull request.
-If you find any bugs, submit them here and I will respond as soon as possible. Plesae make sure to include as much information as possible.
+If you find any bugs, submit them here and I will respond as soon as possible. Please make sure to include as much information as possible.
 
 
 Road Map
 ----------------------------------------
-Too the future! The intention is to, eventually:
+To the future! The intention is to (eventually):
 
 1. Remove Searchy's dependancy on Laravel
 2. Include more drivers for more advanced searching (Including file system searching, indexing and more)
