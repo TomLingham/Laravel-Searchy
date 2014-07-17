@@ -4,7 +4,7 @@ Laravel 4+ Searchy
 
 Searchy is an easy-to-use Laravel 4+ package that makes running user driven searches on data in your models simple and effective.
 It uses pseudo fuzzy searching and other weighted mechanics depending on the search driver that you have enabled.
-It requires no other software installed on your server (so a bit slower than dedicated search programs) but can be setup and ready to go in minutes.
+It requires no other software installed on your server (so a bit slower than dedicated search programs) but can be set up and ready to go in minutes.
 
 Installation
 ----------------------------------------
@@ -15,7 +15,7 @@ Add `"tom-lingham/searchy" : "dev-master"` to your composer.json file under `req
 	"tom-lingham/searchy" : "dev-master"
 }
 ```
-Run `composer update` in your terminal to pull down into your vendors folder.
+Run `composer update` in your terminal to pull the package down into your vendors folder.
 
 Add the service provider to the `providers` array in Laravel's app/config/app.php file:
 ```php
@@ -82,12 +82,12 @@ The Simple search driver only uses 3 matchers each with the relevant multipliers
 
 ```php
 
-	protected $matchers = [
-		'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
-		'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
-		'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
-	];
-	
+protected $matchers = [
+	'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
+	'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
+	'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
+];
+
 ```
 
 
@@ -96,16 +96,16 @@ The Fuzzy Search Driver is simply another group of matchers setup as follows. Th
 
 ```php
 
-	protected $matchers = [
-		'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
-		'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
-		'TomLingham\Searchy\Matchers\AcronymMatcher'               => 42,
-		'TomLingham\Searchy\Matchers\ConsecutiveCharactersMatcher' => 40,
-		'TomLingham\Searchy\Matchers\StartOfWordsMatcher'          => 35,
-		'TomLingham\Searchy\Matchers\StudlyCaseMatcher'            => 32,
-		'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
-		'TomLingham\Searchy\Matchers\TimesInStringMatcher'         => 8,
-	];
+protected $matchers = [
+	'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
+	'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
+	'TomLingham\Searchy\Matchers\AcronymMatcher'               => 42,
+	'TomLingham\Searchy\Matchers\ConsecutiveCharactersMatcher' => 40,
+	'TomLingham\Searchy\Matchers\StartOfWordsMatcher'          => 35,
+	'TomLingham\Searchy\Matchers\StudlyCaseMatcher'            => 32,
+	'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
+	'TomLingham\Searchy\Matchers\TimesInStringMatcher'         => 8,
+];
 	
 ```
 
@@ -114,9 +114,9 @@ The Levenshtein Search Driver uses the Levenshetein Distance to calculate the 'd
 
 ```php
 
-	protected $matchers = [
-		'TomLingham\Searchy\Matchers\LevenshteinMatcher' => 100
-	];
+protected $matchers = [
+	'TomLingham\Searchy\Matchers\LevenshteinMatcher' => 100
+];
 	
 ```
 
@@ -129,48 +129,36 @@ Matches an exact string and applies a high multiplier to bring any exact matches
 
 #### StartOfStringMatcher
 Matches Strings that begin with the search string.
-
 For example, a search for 'hel' would match; 'Hello World' or 'helping hand'
 
 
 #### AcronymMatcher
 Matches strings for Acronym 'like' matches but does NOT return Studly Case Matches
-
 For example, a search for 'fb' would match; 'foo bar' or 'Fred Brown' but not 'FreeBeer'.
 
 
 #### ConsecutiveCharactersMatcher
-
 Matches strings that include all the characters in the search relatively positioned within the string. It also calculates the percentage of characters in the string that are matched and applies the multiplier accordingly.
-
 For Example, a search for 'fba' would match; 'Foo Bar' or 'Afraid of bats', but not 'fabulous'
 
 
 #### StartOfWordsMatcher
-
 Matches the start of each word against each word in a search.
-
 For example, a search for 'jo ta' would match; 'John Taylor' or 'Joshua B. Takeshi'
 
 
 #### StudlyCaseMatcher
-
 Matches Studly Case strings using the first letters of the words only
-
 For example a search for 'hp' would match; 'HtmlServiceProvider' or 'HashParser' but not 'hasProvider'
 
 
 #### InStringMatcher
-
 Matches against any occurrences of a string within a string and is case-insensitive.
-
 For example, a search for 'smi' would match; 'John Smith' or 'Smiley Face'
 
 
 #### TimesInStringMatcher
-Matches a string based on how many times the search string appears inside the string
-it then applies the multiplier for each occurrence.
-
+Matches a string based on how many times the search string appears inside the string it then applies the multiplier for each occurrence.
 For example, a search for 'tha' would match; 'I hope that that cat has caught that mouse' (3 x multiplier) or 'Thanks, it was great!' (1 x multiplier)
 
 
@@ -199,5 +187,5 @@ To the future! The intention is to (eventually):
 
 1. Remove Searchy's dependancy on Laravel
 2. Include more drivers for more advanced searching (Including file system searching, indexing and more)
-3. Implement an AJAX friendly interface for searching models and implementing autosuggestion features on the front end
-4. Speed up search performance
+3. Implement an AJAX friendly interface for searching models and implementing auto-suggestion features on the front end
+4. Speed up search performance and improve result relevance
