@@ -10,8 +10,12 @@ Installation
 ----------------------------------------
 Add to your composer.json file under `require`:
 ```
-"tom-lingham/searchy" : "dev-master"
+"require": {
+	"laravel/framework": "4.*",
+	"tom-lingham/searchy" : "dev-master"
+}
 ```
+Run `composer update` in your terminal to pull down into your vendors folder.
 
 Add the service provider to the `providers` array in Laravel's app/config/app.php file:
 ```php
