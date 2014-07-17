@@ -8,7 +8,7 @@ It requires no other software installed on your server (so a bit slower than ded
 
 Installation
 ----------------------------------------
-Add to your composer.json file under `require`:
+Add `"tom-lingham/searchy" : "dev-master"` to your composer.json file under `require`:
 ```
 "require": {
 	"laravel/framework": "4.*",
