@@ -12,13 +12,6 @@
 class LevenshteinMatcher extends BaseMatcher
 {
 
-	private $sensitivity;
-
-	public function setSensitivity( $sensitivity )
-	{
-		$this->sensitivity = $sensitivity;
-	}
-
 	/**
 	 * @param $column
 	 * @param $searchString
@@ -26,7 +19,7 @@ class LevenshteinMatcher extends BaseMatcher
 	 */
 	public function buildQueryString( $column, $searchString )
 	{
-		return "levenshtein($column, '$searchString', {$this->sensitivity})";
+		return "levenshtein($column, '$searchString')";
 	}
 
 }

@@ -78,6 +78,7 @@ class SearchBuilder {
 	 */
 	private function makeDriver()
 	{
+
 		// Check if default driver is being overridden, otherwise
 		// load the default
 		if ( $this->driverName ){
@@ -86,8 +87,10 @@ class SearchBuilder {
 			$driverName = \Config::get('searchy::default');
 		}
 
+
 		// Gets the details for the selected driver from the configuration file
 		$driverMap = \Config::get("searchy::drivers.$driverName");
+
 
 		// Create a new instance of the selected drivers 'class' and pass
 		// through table and fields to search

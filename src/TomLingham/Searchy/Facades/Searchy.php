@@ -15,9 +15,8 @@ class Searchy extends Facade
 	 */
 	protected static function getFacadeAccessor()
 	{
-		if (!static::$app) {
+		if (!static::$app)
 			static::$app = SearchyServiceProvider::make();
-		}
 
 		return 'searchy';
 	}

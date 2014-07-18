@@ -11,6 +11,7 @@
 
 class StudlyCaseMatcher extends BaseMatcher
 {
+
 	/**
 	 * @var string
 	 */
@@ -28,8 +29,6 @@ class StudlyCaseMatcher extends BaseMatcher
 
 	public function buildQueryString( $column, $searchString )
 	{
-		$query = "IF( CHAR_LENGTH( TRIM($column)) = CHAR_LENGTH( REPLACE( TRIM($column), ' ', '')) AND $column {$this->operator} '{$this->formatSearchString($searchString)}', {$this->multiplier}, 0)";
-
-		return $query;
+		return "IF( CHAR_LENGTH( TRIM($column)) = CHAR_LENGTH( REPLACE( TRIM($column), ' ', '')) AND $column {$this->operator} '{$this->formatSearchString($searchString)}', {$this->multiplier}, 0)";
 	}
 }

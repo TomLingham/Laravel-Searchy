@@ -6,7 +6,7 @@ return [
 
 	'sanitize' => true,
 
-	'sanitizeRegEx' => '/[%]+/i',
+	'sanitizeRegEx' => '/[%\']+/i',
 
 	'fieldName' => 'relevance',
 

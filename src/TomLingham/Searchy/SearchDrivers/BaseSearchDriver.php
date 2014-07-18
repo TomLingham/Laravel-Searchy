@@ -66,9 +66,8 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 			$query[] = $this->buildSelectCriteria( $searchField );
 		}
 
-		$query = \DB::raw(implode(' + ', $query) . ' AS ' . \Config::get('searchy::fieldName'));
+		return \DB::raw(implode(' + ', $query) . ' AS ' . \Config::get('searchy::fieldName'));
 
-		return $query;
 	}
 
 	/**
@@ -109,7 +108,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 */
 	private function sanitize( $searchString )
 	{
-		return preg_replace(\Config::get('searchy::sanitizeRegEx'), '', $searchString);
+		return preg_replace(\Config::get('searchy::sanitizeRegEx'), '', $searchString );
 	}
 
 }
