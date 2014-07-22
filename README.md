@@ -32,9 +32,9 @@ Usage
 ----------------------------------------
 To use Searchy, you can take advantage of magic methods.
 
-If you are searching the name column/field of users in a `users` table you would, for example run:
+If you are searching the name and email column/field of users in a `users` table you would, for example run:
 ```php
-$users = Searchy::users('name')->query('John Smith');
+$users = Searchy::users('name', 'email')->query('John Smith');
 ```
 you can also write this as:
 

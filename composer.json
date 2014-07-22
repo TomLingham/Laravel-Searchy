@@ -1,6 +1,8 @@
 {
     "name": "tom-lingham/searchy",
     "description": "Laravel 4 Searchy makes user driven searching easy with fuzzy search, basic string matching and more to come!",
+	"keywords": ["laravel","search"],
+	"license": "MIT",
     "authors": [
         {
             "name": "Tom Lingham",
