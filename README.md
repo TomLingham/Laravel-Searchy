@@ -24,7 +24,7 @@ Add the service provider to the `providers` array in Laravel's app/config/app.ph
 
 Add the Alias to the `aliases` array in Laravel's app/config/app.php file:
 ```php
-'Searchy' => 'TomLingham\Searchy\SearchBuilder'
+'Searchy' => 'TomLingham\Searchy\Facades\Searchy'
 ```
 
 
