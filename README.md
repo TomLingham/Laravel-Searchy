@@ -39,12 +39,14 @@ $users = Searchy::users('name')->query('John Smith');
 you can also write this as:
 
 ```php
-$users = Searchy::search('users')->query('John Smith');
+$users = Searchy::search('users')->fields('name', 'email')->query('John Smith');
 ```
+In this case, pass the columns you want to search through to the `fields()` method.
+
 These example both return a Laravel DB Query Builder Object, so you will need to chain `get()` to actually return the results in a usable object:
 
 ```php
-$users = Searchy::search('users')->query('John Smith')->get();
+$users = Searchy::search('users')->fields('name', 'email')->query('John Smith')->get();
 ```
 
 #### Searching multiple Columns
