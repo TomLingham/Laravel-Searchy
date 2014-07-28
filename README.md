@@ -43,14 +43,14 @@ $users = Searchy::search('users')->fields('name', 'email')->query('John Smith');
 ```
 In this case, pass the columns you want to search through to the `fields()` method.
 
-These example both return a Laravel DB Query Builder Object, so you will need to chain `get()` to actually return the results in a usable object:
+These examples both return a Laravel DB Query Builder Object, so you will need to chain `get()` to actually return the results in a usable object:
 
 ```php
 $users = Searchy::search('users')->fields('name', 'email')->query('John Smith')->get();
 ```
 
 #### Searching multiple Columns
-You can also add multiple arguments ot the list fo fields/columns ot search by.
+You can also add multiple arguments to the list of fields/columns to search by.
 
 For example, if you want to search the name, email address and username of a user, you might run:
 ```php
@@ -62,7 +62,7 @@ Configuration
 ----------------------------------------
 You can publish the configuration file to your `app` directory and override the settings by running `php artisan config:publish tom-lingham/searchy`
 
-You can set the default driver to use for searches in the configuration file. Your options (At this stage) are: `fuzzy`, `simple` and `levenshtein`.
+You can set the default driver to use for searches in the configuration file. Your options (at this stage) are: `fuzzy`, `simple` and `levenshtein`.
 
 You can also override these methods using the following syntax when running a search:
 
@@ -75,7 +75,7 @@ Drivers
 ----------------------------------------
 Searchy takes advantage of 'Drivers' to handle matching various conditions of the fields you specify.
 
-Drivers are simply a specified group of 'Matchers' which match strings based on different conditions.
+Drivers are simply a specified group of 'Matchers' which match strings based on specific conditions.
 
 Currently there are only three drivers: Simple, Fuzzy and Levenshtein (Experimental).
 
@@ -126,7 +126,8 @@ Matchers
 ----------------------------------------
 
 #### ExactMatcher
-Matches an exact string and applies a high multiplier to bring any exact matches to the top When sanitize is on, if the expression strips some of the characters from the search query then this may not be able to match against a string despite entering in an exact match.
+Matches an exact string and applies a high multiplier to bring any exact matches to the top.
+When sanitize is on, if the expression strips some of the characters from the search query then this may not be able to match against a string despite entering in an exact match.
 
 
 #### StartOfStringMatcher
