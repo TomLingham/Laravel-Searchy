@@ -63,7 +63,12 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 		$query = [];
 
 		foreach ($searchFields as $searchField) {
-			$query[] = $this->buildSelectCriteria( $searchField );
+			if (strpos($searchField, '::')){
+				$concatString = explode('::', $searchField);
+				$query[] = $this->buildSelectCriteria( "CONCAT({$concatString[0]}, ' ', {$concatString[1]})");
+			} else {
+				$query[] = $this->buildSelectCriteria( $searchField );
+			}
 		}
 
 		return \DB::raw(implode(' + ', $query) . ' AS ' . \Config::get('searchy::fieldName'));
