@@ -11,7 +11,7 @@ Installation
 Add `"tom-lingham/searchy" : "2.0~"` to your composer.json file under `require`:
 ```
 "require": {
-	"laravel/framework": "4.*",
+	"laravel/framework": "5.*",
 	"tom-lingham/searchy" : "dev-master"
 }
 ```
