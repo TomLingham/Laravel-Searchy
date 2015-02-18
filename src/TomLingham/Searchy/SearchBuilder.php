@@ -1,6 +1,6 @@
 <?php namespace TomLingham\Searchy;
 
-use Illuminate\Support\Facades\Config;
+use Illuminate\Config\Repository;
 use TomLingham\Searchy\SearchDrivers\FuzzySearchDriver;
 
 
@@ -24,6 +24,14 @@ class SearchBuilder {
 	 * @var
 	 */
 	private $driverName;
+
+
+	private $config;
+
+	public function __construct( Repository $config )
+	{
+		$this->config = $config;
+	}
 
 	/**
 	 * @param $table
@@ -84,13 +92,11 @@ class SearchBuilder {
 		if ( $this->driverName ){
 			$driverName = $this->driverName;
 		} else {
-			$driverName = Config::get('searchy::default');
+			$driverName = $this->config->get('searchy.default');
 		}
 
-
 		// Gets the details for the selected driver from the configuration file
-		$driverMap = Config::get("searchy::drivers.$driverName");
-
+		$driverMap = $this->config->get("searchy.drivers.$driverName");
 
 		// Create a new instance of the selected drivers 'class' and pass
 		// through table and fields to search

@@ -1,5 +1,6 @@
 <?php namespace TomLingham\Searchy;
 
+use Illuminate\Config\Repository;
 use Illuminate\Support\ServiceProvider;
 
 class SearchyServiceProvider extends ServiceProvider {
@@ -18,9 +19,9 @@ class SearchyServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
-		$this->app->bindShared('searchy', function($app)
+		$this->app->bindShared('searchy', function( $app )
 		{
-			return new SearchBuilder();
+			return new SearchBuilder( $app['config'] );
 		});
 	}
 
@@ -29,7 +30,9 @@ class SearchyServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('tom-lingham/searchy');
+		$this->publishes([
+			__DIR__.'/../../config/config.php' => config_path('searchy.php'),
+		]);
 	}
 
 	/**

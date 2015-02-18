@@ -23,32 +23,37 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 */
 	protected $table;
 
+	protected $columns;
+
 	/**
 	 * @param null $table
 	 * @param array $searchFields
+	 * @param array $columns
 	 */
-	public function __construct( $table = null, $searchFields = [] )
+	public function __construct( $table = null, $searchFields = [], $columns = ['*'] )
 	{
 		$this->searchFields = $searchFields;
 		$this->table = $table;
+		$this->columns = $columns;
 	}
 
 	/**
 	 * @param $searchString
 	 * @return \Illuminate\Database\Query\Builder|mixed|static
-	 * @throws \Whoops\Example\Exception
 	 */
 	public function query( $searchString )
 	{
 
-		if(\Config::get('searchy::sanitize'))
+		if(\Config::get('searchy.sanitize'))
 			$this->searchString = $this->sanitize($searchString);
 
 		$results = \DB::table($this->table)
-			->select('*')
+			->select( implode($this->columns, ', ') )
 			->addSelect($this->buildSelectQuery( $this->searchFields ))
-			->orderBy(\Config::get('searchy::fieldName'), 'desc')
-			->having(\Config::get('searchy::fieldName'),'>', 0);
+			->orderBy(\Config::get('searchy.fieldName'), 'desc')
+			->having(\Config::get('searchy.fieldName'),'>', 0);
+
+		die($results->toSQL());
 
 		return $results;
 	}
@@ -71,7 +76,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 			}
 		}
 
-		return \DB::raw(implode(' + ', $query) . ' AS ' . \Config::get('searchy::fieldName'));
+		return \DB::raw(implode(' + ', $query) . ' AS ' . \Config::get('searchy.fieldName'));
 
 	}
 
@@ -113,7 +118,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 */
 	private function sanitize( $searchString )
 	{
-		return preg_replace(\Config::get('searchy::sanitizeRegEx'), '', $searchString );
+		return preg_replace(\Config::get('searchy.sanitizeRegEx'), '', $searchString );
 	}
 
 }
