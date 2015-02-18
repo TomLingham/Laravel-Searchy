@@ -1,25 +1,25 @@
 {
-    "name": "tom-lingham/searchy",
-    "description": "Laravel 4 Searchy makes user driven searching easy with fuzzy search, basic string matching and more to come!",
-	"keywords": ["laravel","search"],
+	"name": "tom-lingham/searchy",
+	"description": "Laravel Searchy makes user driven searching easy with fuzzy search, basic string matching, Levenshtein Distance and more.",
+	"keywords": ["laravel","search","fuzzy"],
 	"license": "MIT",
-    "authors": [
-        {
-            "name": "Tom Lingham",
-            "email": "tjlingham@gmail.com"
-        }
-    ],
-    "require": {
-        "php": ">=5.4.0",
-        "illuminate/support": "4.2.*"
-    },
-    "require-dev" :{
-    	"phpspec/phpspec": "~2.0"
-    },
-    "autoload": {
-        "psr-0": {
-            "TomLingham\\Searchy": "src/"
-        }
-    },
-    "minimum-stability": "stable"
+	"authors": [
+		{
+			"name": "Tom Lingham",
+			"email": "tjlingham@gmail.com"
+		}
+	],
+	"require": {
+		"php": ">=5.4.0",
+		"illuminate/support": "5.*"
+	},
+	"require-dev" :{
+		"phpspec/phpspec": "~2.0"
+	},
+	"autoload": {
+		"psr-0": {
+			"TomLingham": "src/"
+		}
+	},
+	"minimum-stability": "stable"
 }

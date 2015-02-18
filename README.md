@@ -1,28 +1,28 @@
-Laravel 4+ Searchy
+Laravel Searchy 2
 ========================================
 ### Database Searching Made Easy
 
-Searchy is an easy-to-use Laravel 4+ package that makes running user driven searches on data in your models simple and effective.
+Searchy is an easy-to-use Laravel Optimized package that makes running user driven searches on data in your models simple and effective.
 It uses pseudo fuzzy searching and other weighted mechanics depending on the search driver that you have enabled.
-It requires no other software installed on your server (so a bit slower than dedicated search programs) but can be set up and ready to go in minutes.
+It requires no other software installed on your server (so can be a little slower than dedicated search programs) but can be set up and ready to go in minutes.
 
 Installation
 ----------------------------------------
-Add `"tom-lingham/searchy" : "dev-master"` to your composer.json file under `require`:
+Add `"tom-lingham/searchy" : "2.0~"` to your composer.json file under `require`:
 ```
 "require": {
 	"laravel/framework": "4.*",
 	"tom-lingham/searchy" : "dev-master"
 }
 ```
-Run `composer update` in your terminal to pull the package down into your vendors folder.
+Run `composer update` in your terminal to pull down the package into your vendors folder.
 
 Add the service provider to the `providers` array in Laravel's app/config/app.php file:
 ```php
 'TomLingham\Searchy\SearchyServiceProvider'
 ```
 
-Add the Alias to the `aliases` array in Laravel's app/config/app.php file:
+Add the Alias to the `aliases` array in Laravel's app/config/app.php file if you want to have quick access to it in your application:
 ```php
 'Searchy' => 'TomLingham\Searchy\Facades\Searchy'
 ```
@@ -43,7 +43,7 @@ $users = Searchy::search('users')->fields('name', 'email')->query('John Smith');
 ```
 In this case, pass the columns you want to search through to the `fields()` method.
 
-These examples both return a Laravel DB Query Builder Object, so you will need to chain `get()` to actually return the results in a usable object:
+These examples both return a Laravel DB Query Builder Object, so you will need to chain `get()` to actually return the results:
 
 ```php
 $users = Searchy::search('users')->fields('name', 'email')->query('John Smith')->get();
@@ -113,7 +113,7 @@ protected $matchers = [
 	'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
 	'TomLingham\Searchy\Matchers\TimesInStringMatcher'         => 8,
 ];
-	
+
 ```
 
 #### Levenshtein Search Driver (Experimental)
@@ -124,7 +124,7 @@ The Levenshtein Search Driver uses the Levenshetein Distance to calculate the 'd
 protected $matchers = [
 	'TomLingham\Searchy\Matchers\LevenshteinMatcher' => 100
 ];
-	
+
 ```
 
 Matchers

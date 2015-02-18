@@ -1,6 +1,5 @@
 <?php namespace TomLingham\Searchy\Facades;
 
-use TomLingham\Searchy\SearchyServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -15,9 +14,6 @@ class Searchy extends Facade
 	 */
 	protected static function getFacadeAccessor()
 	{
-		if (!static::$app)
-			static::$app = SearchyServiceProvider::make();
-
 		return 'searchy';
 	}
 }

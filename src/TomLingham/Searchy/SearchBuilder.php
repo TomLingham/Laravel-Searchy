@@ -1,8 +1,8 @@
 <?php namespace TomLingham\Searchy;
 
-
 use Illuminate\Support\Facades\Config;
 use TomLingham\Searchy\SearchDrivers\FuzzySearchDriver;
+
 
 /**
  * @property mixed driverName
@@ -84,12 +84,12 @@ class SearchBuilder {
 		if ( $this->driverName ){
 			$driverName = $this->driverName;
 		} else {
-			$driverName = \Config::get('searchy::default');
+			$driverName = Config::get('searchy::default');
 		}
 
 
 		// Gets the details for the selected driver from the configuration file
-		$driverMap = \Config::get("searchy::drivers.$driverName");
+		$driverMap = Config::get("searchy::drivers.$driverName");
 
 
 		// Create a new instance of the selected drivers 'class' and pass
