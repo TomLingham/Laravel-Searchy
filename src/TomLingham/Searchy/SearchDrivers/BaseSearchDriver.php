@@ -41,6 +41,8 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	public function columns($columns)
 	{
 		$this->columns = $columns;
+		
+		return $this;
 	}
 
 	/**
