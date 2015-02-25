@@ -38,14 +38,14 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 * @return \Illuminate\Database\Query\Builder|mixed|static
 	 * @throws \Whoops\Example\Exception
 	 */
-	public function query( $searchString )
+	public function query( $searchString, $columns = "*")
 	{
 
 		if(\Config::get('searchy::sanitize'))
 			$this->searchString = $this->sanitize($searchString);
 
 		$results = \DB::table($this->table)
-			->select('*')
+			->select($columns)
 			->addSelect($this->buildSelectQuery( $this->searchFields ))
 			->orderBy(\Config::get('searchy::fieldName'), 'desc')
 			->having(\Config::get('searchy::fieldName'),'>', 0);
