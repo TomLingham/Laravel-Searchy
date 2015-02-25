@@ -22,6 +22,11 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 * @var null
 	 */
 	protected $table;
+	
+	/**
+	 * @var
+	 */
+	protected $columns = "*";
 
 	/**
 	 * @param null $table
@@ -32,20 +37,25 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 		$this->searchFields = $searchFields;
 		$this->table = $table;
 	}
+	
+	public function columns($columns)
+	{
+		$this->columns = $columns;
+	}
 
 	/**
 	 * @param $searchString
 	 * @return \Illuminate\Database\Query\Builder|mixed|static
 	 * @throws \Whoops\Example\Exception
 	 */
-	public function query( $searchString, $columns = "*")
+	public function query($searchString)
 	{
 
 		if(\Config::get('searchy::sanitize'))
 			$this->searchString = $this->sanitize($searchString);
 
 		$results = \DB::table($this->table)
-			->select($columns)
+			->select($this->columns)
 			->addSelect($this->buildSelectQuery( $this->searchFields ))
 			->orderBy(\Config::get('searchy::fieldName'), 'desc')
 			->having(\Config::get('searchy::fieldName'),'>', 0);
