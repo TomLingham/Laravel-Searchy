@@ -113,7 +113,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 */
 	private function sanitize( $searchString )
 	{
-		return preg_replace(\Config::get('searchy::sanitizeRegEx'), '', $searchString );
+		return preg_replace(\Config::get('searchy::sanitizeRegEx'), '\\\$0', $searchString );
 	}
 
 }
