@@ -8,6 +8,7 @@ It requires no other software installed on your server (so can be a little slowe
 
 #### !! Laravel 4 !!
 Looking for Laravel 4 compatible Searchy? Checkout the 1.0 branch :)
+https://github.com/TomLingham/Laravel-Searchy/tree/1.0
 
 Installation
 ----------------------------------------
