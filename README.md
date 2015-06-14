@@ -1,3 +1,5 @@
+![Tom Lingham Laravel Searchy](http://tomlingham.com/github/header-searchy.png)
+
 Laravel 5+ Searchy
 ========================================
 ### Database Searching Made Easy
