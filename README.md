@@ -83,7 +83,7 @@ This will, however, also return the `relevance` aliased column regardless of wha
 
 Configuration
 ----------------------------------------
-You can publish the configuration file to your `app` directory and override the settings by running `php artisan config:publish tom-lingham/searchy`
+You can publish the configuration file to your `app` directory and override the settings by running `php artisan vendor:publish` to copy the configuration to your config folder as `searchy.php`
 
 You can set the default driver to use for searches in the configuration file. Your options (at this stage) are: `fuzzy`, `simple` and `levenshtein`.
 
