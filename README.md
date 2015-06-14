@@ -8,11 +8,11 @@ It requires no other software installed on your server (so a bit slower than ded
 
 Installation
 ----------------------------------------
-Add `"tom-lingham/searchy" : "dev-master"` to your composer.json file under `require`:
+Add `"tom-lingham/searchy" : "1.*"` to your composer.json file under `require`:
 ```
 "require": {
 	"laravel/framework": "4.*",
-	"tom-lingham/searchy" : "dev-master"
+	"tom-lingham/searchy" : "1.*"
 }
 ```
 Run `composer update` in your terminal to pull the package down into your vendors folder.
