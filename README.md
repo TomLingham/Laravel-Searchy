@@ -12,11 +12,11 @@ https://github.com/TomLingham/Laravel-Searchy/tree/1.0
 
 Installation
 ----------------------------------------
-Add `"tom-lingham/searchy" : "2.0"` to your composer.json file under `require`:
+Add `"tom-lingham/searchy" : "2.*"` to your composer.json file under `require`:
 ```
 "require": {
 	"laravel/framework": "5.*",
-	"tom-lingham/searchy" : "2.0"
+	"tom-lingham/searchy" : "2.*"
 }
 ```
 Run `composer update` in your terminal to pull down the package into your vendors folder.
