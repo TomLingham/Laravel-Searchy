@@ -22,6 +22,7 @@ class ConsecutiveCharactersMatcher extends BaseMatcher
 	 */
 	public function formatSearchString( $searchString )
 	{
+		$searchString = preg_replace('/[^0-9a-zA-Z]/', '', $searchString);
 		return '%'.implode('%', str_split( $searchString )).'%';
 	}
 

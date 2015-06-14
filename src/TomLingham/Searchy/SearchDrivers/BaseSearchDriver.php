@@ -2,60 +2,98 @@
 
 use TomLingham\Searchy\Interfaces\SearchDriverInterface;
 
-/**
- * @property mixed methods
- * @property mixed matchers
- */
+
 abstract class BaseSearchDriver implements SearchDriverInterface {
 
-	/**
-	 * @var array
-	 */
-	protected $searchFields;
-
-	/**
-	 * @var
-	 */
-	protected $searchString;
-
-	/**
-	 * @var null
-	 */
 	protected $table;
-
 	protected $columns;
+	protected $searchFields;
+	protected $searchString;
+	protected $relevanceFieldName;
+	protected $query;
 
 	/**
 	 * @param null $table
 	 * @param array $searchFields
+	 * @param $relevanceFieldName
 	 * @param array $columns
+	 * @internal param $relevanceField
 	 */
-	public function __construct( $table = null, $searchFields = [], $columns = ['*'] )
+	public function __construct( $table = null, $searchFields = [], $relevanceFieldName, $columns = ['*'] )
 	{
 		$this->searchFields = $searchFields;
 		$this->table = $table;
 		$this->columns = $columns;
+		$this->relevanceFieldName = $relevanceFieldName;
 	}
 
 	/**
+	 * Specify which columns to return
+	 *
+	 * @return $this
+	 */
+	public function select()
+	{
+		$this->columns = func_get_args();
+		return $this;
+	}
+
+	/**
+	 * Specify the string that is is being searched for
+	 *
 	 * @param $searchString
 	 * @return \Illuminate\Database\Query\Builder|mixed|static
 	 */
 	public function query( $searchString )
 	{
+		$this->searchString = trim(\DB::connection()->getPdo()->quote( $searchString ), "'");
+		return $this;
+	}
 
-		if(\Config::get('searchy.sanitize'))
-			$this->searchString = $this->sanitize($searchString);
+	/**
+	 * Get the results of the search as an Array
+	 *
+	 * @return array
+	 */
+	public function get()
+	{
+		return $this->run()->get();
+	}
 
-		$results = \DB::table($this->table)
-			->select( implode($this->columns, ', ') )
-			->addSelect($this->buildSelectQuery( $this->searchFields ))
-			->orderBy(\Config::get('searchy.fieldName'), 'desc')
-			->having(\Config::get('searchy.fieldName'),'>', 0);
+	/**
+	 * Returns an instance of the Laravel Fluent Database Query Object with the search
+	 * queries applied
+	 *
+	 * @return array
+	 */
+	public function getQuery()
+	{
+		return $this->run();
+	}
 
-		die($results->toSQL());
+	/**
+	 * Runs the 'having' method directly on the Laravel Fluent Database Query Object
+	 * and returns the instance of the object
+	 *
+	 * @return mixed
+	 */
+	public function having()
+	{
+		return call_user_func_array([$this->run(), 'having'], func_get_args());
+	}
 
-		return $results;
+	/**
+	 * @return $this
+	 */
+	protected function run()
+	{
+		$this->query = \DB::table( $this->table )
+			->select( $this->columns )
+			->addSelect( $this->buildSelectQuery( $this->searchFields ) )
+			->orderBy( $this->relevanceFieldName, 'desc' )
+			->having( $this->relevanceFieldName, '>', 0 );
+
+		return $this->query;
 	}
 
 	/**
@@ -64,20 +102,18 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 */
 	protected function buildSelectQuery( array $searchFields )
 	{
-
 		$query = [];
 
 		foreach ($searchFields as $searchField) {
 			if (strpos($searchField, '::')){
-				$concatString = explode('::', $searchField);
-				$query[] = $this->buildSelectCriteria( "CONCAT({$concatString[0]}, ' ', {$concatString[1]})");
+				$concatString = str_replace('::', ", ' ', ", $searchField);
+				$query[] = $this->buildSelectCriteria( "CONCAT({$concatString})");
 			} else {
 				$query[] = $this->buildSelectCriteria( $searchField );
 			}
 		}
 
-		return \DB::raw(implode(' + ', $query) . ' AS ' . \Config::get('searchy.fieldName'));
-
+		return \DB::raw(implode(' + ', $query) . ' AS ' . $this->relevanceFieldName);
 	}
 
 	/**
@@ -86,7 +122,6 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 */
 	protected function buildSelectCriteria( $searchField = null )
 	{
-
 		$criteria = [];
 
 		foreach( $this->matchers as $matcher => $multiplier){
@@ -105,20 +140,8 @@ abstract class BaseSearchDriver implements SearchDriverInterface {
 	 */
 	protected function makeMatcher( $searchField, $matcherClass, $multiplier )
 	{
-
 		$matcher = new $matcherClass( $multiplier );
 
 		return $matcher->buildQueryString( $searchField, $this->searchString );
-
 	}
-
-	/**
-	 * @param $searchString
-	 * @return mixed
-	 */
-	private function sanitize( $searchString )
-	{
-		return preg_replace(\Config::get('searchy.sanitizeRegEx'), '', $searchString );
-	}
-
 }

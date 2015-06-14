@@ -25,8 +25,11 @@ class SearchBuilder {
 	 */
 	private $driverName;
 
-
+	/**
+	 * @var
+	 */
 	private $config;
+
 
 	public function __construct( Repository $config )
 	{
@@ -34,12 +37,16 @@ class SearchBuilder {
 	}
 
 	/**
-	 * @param $table
+	 * @param $searchable
 	 * @return $this
 	 */
-	public function search( $table )
+	public function search( $searchable )
 	{
-		$this->table = $table;
+		if (is_object( $searchable ) && method_exists($searchable, 'getTable')) {
+			$this->table = $searchable->getTable();
+		} else {
+			$this->table = $searchable;
+		}
 
 		return $this;
 	}
@@ -49,13 +56,9 @@ class SearchBuilder {
 	 */
 	public function fields( /* $fields */ )
 	{
-
-		$searchFields = func_get_args();
-
-		$this->searchFields = $searchFields;
+		$this->searchFields = func_get_args();
 
 		return $this->makeDriver();
-
 	}
 
 	/**
@@ -76,9 +79,7 @@ class SearchBuilder {
 	 */
 	public function __call( $table, $searchFields )
 	{
-
 		return call_user_func_array([$this->search( $table ), 'fields'], $searchFields);
-
 	}
 
 	/**
@@ -86,6 +87,7 @@ class SearchBuilder {
 	 */
 	private function makeDriver()
 	{
+		$relevanceFieldName = $this->config->get('searchy.fieldName');
 
 		// Check if default driver is being overridden, otherwise
 		// load the default
@@ -96,11 +98,12 @@ class SearchBuilder {
 		}
 
 		// Gets the details for the selected driver from the configuration file
-		$driverMap = $this->config->get("searchy.drivers.$driverName");
+		$driver = $this->config->get("searchy.drivers.$driverName")['class'];
 
 		// Create a new instance of the selected drivers 'class' and pass
 		// through table and fields to search
-		return new $driverMap['class']( $this->table, $this->searchFields );
+		$driverInstance = new $driver( $this->table, $this->searchFields, $relevanceFieldName );
+		return $driverInstance;
 
 	}
 

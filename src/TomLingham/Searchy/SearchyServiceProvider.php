@@ -23,6 +23,10 @@ class SearchyServiceProvider extends ServiceProvider {
 		{
 			return new SearchBuilder( $app['config'] );
 		});
+
+		$this->mergeConfigFrom(
+			__DIR__ . '/../../config/config.php', 'searchy'
+		);
 	}
 
 	/**

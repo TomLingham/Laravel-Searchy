@@ -2,12 +2,11 @@
 
 interface SearchDriverInterface
 {
-	/**
-	 * Execute the query on the Driver
-	 *
-	 * @param $searchString
-	 * @return mixed
-	 */
+
 	public function query( $searchString );
+
+	public function select( /* $columns */ );
+
+	public function get();
 
 }

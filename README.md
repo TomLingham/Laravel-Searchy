@@ -2,29 +2,29 @@ Laravel Searchy 2
 ========================================
 ### Database Searching Made Easy
 
-Searchy is an easy-to-use Laravel Optimized package that makes running user driven searches on data in your models simple and effective.
+Searchy is an; easy-to-use, light-weight, MySQL only, Laravel package that makes running user driven searches on data in your models simple and effective.
 It uses pseudo fuzzy searching and other weighted mechanics depending on the search driver that you have enabled.
 It requires no other software installed on your server (so can be a little slower than dedicated search programs) but can be set up and ready to go in minutes.
 
 Installation
 ----------------------------------------
-Add `"tom-lingham/searchy" : "2.0~"` to your composer.json file under `require`:
+Add `"tom-lingham/searchy" : "2.0"` to your composer.json file under `require`:
 ```
 "require": {
 	"laravel/framework": "5.*",
-	"tom-lingham/searchy" : "dev-master"
+	"tom-lingham/searchy" : "2.0"
 }
 ```
 Run `composer update` in your terminal to pull down the package into your vendors folder.
 
 Add the service provider to the `providers` array in Laravel's app/config/app.php file:
 ```php
-'TomLingham\Searchy\SearchyServiceProvider'
+TomLingham\Searchy\SearchyServiceProvider::class
 ```
 
 Add the Alias to the `aliases` array in Laravel's app/config/app.php file if you want to have quick access to it in your application:
 ```php
-'Searchy' => 'TomLingham\Searchy\Facades\Searchy'
+'Searchy' => TomLingham\Searchy\Facades\Searchy::class
 ```
 
 
@@ -34,19 +34,21 @@ To use Searchy, you can take advantage of magic methods.
 
 If you are searching the name and email column/field of users in a `users` table you would, for example run:
 ```php
-$users = Searchy::users('name', 'email')->query('John Smith');
+$users = Searchy::users('name', 'email')->query('John Smith')->get();
 ```
 you can also write this as:
 
 ```php
-$users = Searchy::search('users')->fields('name', 'email')->query('John Smith');
+$users = Searchy::search('users')->fields('name', 'email')->query('John Smith')->get();
 ```
 In this case, pass the columns you want to search through to the `fields()` method.
 
-These examples both return a Laravel DB Query Builder Object, so you will need to chain `get()` to actually return the results:
+These examples both return an array of Objects containing your search results. You can use `getQuery()` instead of
+`get()` to return an instance of the Database Query Object in case you want to do further manipulation to the results:
 
 ```php
-$users = Searchy::search('users')->fields('name', 'email')->query('John Smith')->get();
+$users = Searchy::search('users')->fields('name', 'email')->query('John Smith')
+    ->getQuery()->having('relevance', '>', 20)->get();
 ```
 
 #### Searching multiple Columns
@@ -54,14 +56,24 @@ You can also add multiple arguments to the list of fields/columns to search by.
 
 For example, if you want to search the name, email address and username of a user, you might run:
 ```php
-$users = Searchy::users('name', 'email', 'username')->query('John Smith');
+$users = Searchy::users('name', 'email', 'username')->query('John Smith')->get();
 ```
 
 #### Searching Joined/Concatenated Columns
 Sometimes you may want to leverage searches on concatenated column. For example, on a `first_name` and `last_name` field but you only want to run the one query. To do this can separate columns with a double colon:
 ```php
-$users = Searchy::users('first_name::last_name')->query('John Smith');
+$users = Searchy::users('first_name::last_name')->query('John Smith')->get();
 ```
+
+#### Return only specific columns
+You can specify which columns to return in your search:
+```php
+$users = Searchy::users('first_name::last_name')->query('John Smith')->select('first_name')->get();
+
+// Or you can swap those around...
+$users = Searchy::users('first_name::last_name')->select('first_name')->query('John Smith')->get();
+```
+This will, however, also return the `relevance` aliased column regardless of what is entered here.
 
 Configuration
 ----------------------------------------
@@ -72,7 +84,7 @@ You can set the default driver to use for searches in the configuration file. Yo
 You can also override these methods using the following syntax when running a search:
 
 ```php
-Searchy::driver('fuzzy')->users('name')->query('Bat Man')->get();
+Searchy::driver('fuzzy')->users('name')->query('Batman')->get();
 ```
 
 
@@ -88,13 +100,11 @@ Currently there are only three drivers: Simple, Fuzzy and Levenshtein (Experimen
 The Simple search driver only uses 3 matchers each with the relevant multipliers that best suited my testing environments.
 
 ```php
-
 protected $matchers = [
 	'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
 	'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
 	'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
 ];
-
 ```
 
 
@@ -102,7 +112,6 @@ protected $matchers = [
 The Fuzzy Search Driver is simply another group of matchers setup as follows. The multipliers are what I have used, but feel free to change these or roll your own driver with the same matchers and change the multipliers to suit.
 
 ```php
-
 protected $matchers = [
 	'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
 	'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
@@ -113,18 +122,15 @@ protected $matchers = [
 	'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
 	'TomLingham\Searchy\Matchers\TimesInStringMatcher'         => 8,
 ];
-
 ```
 
 #### Levenshtein Search Driver (Experimental)
 The Levenshtein Search Driver uses the Levenshetein Distance to calculate the 'distance' between strings. It requires that you have a stored procedure in MySQL similar to the following `levenshtein( string1, string2 )`. There is an SQL file with a suitable function in the `res` folder - feel free to use this one.
 
 ```php
-
 protected $matchers = [
 	'TomLingham\Searchy\Matchers\LevenshteinMatcher' => 100
 ];
-
 ```
 
 Matchers
@@ -132,7 +138,6 @@ Matchers
 
 #### ExactMatcher
 Matches an exact string and applies a high multiplier to bring any exact matches to the top.
-When sanitize is on, if the expression strips some of the characters from the search query then this may not be able to match against a string despite entering in an exact match.
 
 
 #### StartOfStringMatcher
@@ -187,13 +192,3 @@ Contributing & Reporting Bugs
 ----------------------------------------
 If you would like to improve on the code that is here, feel free to submit a pull request.
 If you find any bugs, submit them here and I will respond as soon as possible. Please make sure to include as much information as possible.
-
-
-Road Map
-----------------------------------------
-To the future! The intention is to (eventually):
-
-1. Remove Searchy's dependancy on Laravel
-2. Include more drivers for more advanced searching (Including file system searching, indexing and more)
-3. Implement an AJAX friendly interface for searching models and implementing auto-suggestion features on the front end
-4. Speed up search performance and improve result relevance

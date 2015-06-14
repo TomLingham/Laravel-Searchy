@@ -4,10 +4,6 @@ return [
 
 	'default' => 'fuzzy',
 
-	'sanitize' => true,
-
-	'sanitizeRegEx' => '/[%\']+/i',
-
 	'fieldName' => 'relevance',
 
 	'drivers' => [
