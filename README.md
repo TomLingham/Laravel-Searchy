@@ -187,13 +187,3 @@ Contributing & Reporting Bugs
 ----------------------------------------
 If you would like to improve on the code that is here, feel free to submit a pull request.
 If you find any bugs, submit them here and I will respond as soon as possible. Please make sure to include as much information as possible.
-
-
-Road Map
-----------------------------------------
-To the future! The intention is to (eventually):
-
-1. Remove Searchy's dependancy on Laravel
-2. Include more drivers for more advanced searching (Including file system searching, indexing and more)
-3. Implement an AJAX friendly interface for searching models and implementing auto-suggestion features on the front end
-4. Speed up search performance and improve result relevance
