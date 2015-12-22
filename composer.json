@@ -17,8 +17,8 @@
 		"phpspec/phpspec": "~2.0"
 	},
 	"autoload": {
-		"psr-0": {
-			"TomLingham": "src/"
+		"psr-4": {
+			"TomLingham\\Searchy\\": "src/"
 		}
 	},
 	"minimum-stability": "stable"
