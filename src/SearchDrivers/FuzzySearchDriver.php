@@ -8,13 +8,13 @@ class FuzzySearchDriver extends BaseSearchDriver
      * @var array
      */
     protected $matchers = [
-        'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
-        'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
-        'TomLingham\Searchy\Matchers\AcronymMatcher'               => 42,
-        'TomLingham\Searchy\Matchers\ConsecutiveCharactersMatcher' => 40,
-        'TomLingham\Searchy\Matchers\StartOfWordsMatcher'          => 35,
-        'TomLingham\Searchy\Matchers\StudlyCaseMatcher'            => 32,
-        'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
-        'TomLingham\Searchy\Matchers\TimesInStringMatcher'         => 8,
-    ];
+        \TomLingham\Searchy\Matchers\ExactMatcher::class                 => 100,
+        \TomLingham\Searchy\Matchers\StartOfStringMatcher::class         => 50,
+        \TomLingham\Searchy\Matchers\AcronymMatcher::class               => 42,
+        \TomLingham\Searchy\Matchers\ConsecutiveCharactersMatcher::class => 40,
+        \TomLingham\Searchy\Matchers\StartOfWordsMatcher::class          => 35,
+        \TomLingham\Searchy\Matchers\StudlyCaseMatcher::class            => 32,
+        \TomLingham\Searchy\Matchers\InStringMatcher::class              => 30,
+        \TomLingham\Searchy\Matchers\TimesInStringMatcher::class         => 8,
+];
 }

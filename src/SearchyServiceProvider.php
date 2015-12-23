@@ -26,9 +26,21 @@ class SearchyServiceProvider extends ServiceProvider
      */
     public function registerSearchy()
     {
-        $this->app->bindShared('searchy', function ($app) {
-            return new SearchBuilder($app['config']);
-        });
+        // Laravel <= 5.1
+        $closure = function ($app) {
+            return new SearchBuilder( $app['config'] );
+        };
+
+
+        if ( method_exists($this->app, 'bindShared') )
+        {
+            $this->app->bindShared('searchy', $closure);
+        }
+
+        // Laravel 5.2 Goodness :)
+        else {
+            $this->app->singleton('searchy', $closure);
+        }
     }
 
     /**

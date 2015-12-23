@@ -8,6 +8,6 @@ class LevenshteinSearchDriver extends BaseSearchDriver
      * @var array
      */
     protected $matchers = [
-        'TomLingham\Searchy\Matchers\LevenshteinMatcher' => 100,
+        \TomLingham\Searchy\Matchers\LevenshteinMatcher::class           => 100,
     ];
 }

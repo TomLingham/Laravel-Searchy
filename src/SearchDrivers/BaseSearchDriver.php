@@ -7,10 +7,15 @@ use TomLingham\Searchy\Interfaces\SearchDriverInterface;
 abstract class BaseSearchDriver implements SearchDriverInterface
 {
     protected $table;
+
     protected $columns;
+
     protected $searchFields;
+
     protected $searchString;
+
     protected $relevanceFieldName;
+
     protected $query;
 
     /**
