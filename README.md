@@ -27,13 +27,13 @@ Add `"tom-lingham/searchy" : "2.*"` to your composer.json file under `require`:
 
 Run `composer update` in your terminal to pull down the package into your vendors folder.
 
-Add the service provider to the `providers` array in Laravel's app/config/app.php file:
+Add the service provider to the `providers` array in Laravel's `./config/app.php` file:
 
 ```php
 TomLingham\Searchy\SearchyServiceProvider::class
 ```
 
-Add the Alias to the `aliases` array in Laravel's `./config/app.php`` file if you want to have quick access to it in your application:
+Add the Alias to the `aliases` array in Laravel's `./config/app.php` file if you want to have quick access to it in your application:
 
 ```php
 'Searchy' => TomLingham\Searchy\Facades\Searchy::class
