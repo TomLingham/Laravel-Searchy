@@ -1,25 +1,29 @@
 {
-	"name": "tom-lingham/searchy",
-	"description": "Laravel Searchy makes user driven searching easy with fuzzy search, basic string matching, Levenshtein Distance and more.",
-	"keywords": ["laravel","search","fuzzy"],
-	"license": "MIT",
-	"authors": [
-		{
-			"name": "Tom Lingham",
-			"email": "tjlingham@gmail.com"
-		}
-	],
-	"require": {
-		"php": ">=5.5.0",
-		"illuminate/support": "5.*"
-	},
-	"require-dev" :{
-		"phpspec/phpspec": "~2.0"
-	},
-	"autoload": {
-		"psr-4": {
-			"TomLingham\\Searchy\\": "src/"
-		}
-	},
-	"minimum-stability": "stable"
+    "name": "tom-lingham/searchy",
+    "description": "Laravel Searchy makes user driven searching easy with fuzzy search, basic string matching, Levenshtein Distance and more.",
+    "keywords": ["laravel","search","fuzzy"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tom Lingham",
+            "email": "tjlingham@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.0",
+        "illuminate/support": "5.1.*|5.2.*"
+    },
+    "require-dev" :{
+        "phpspec/phpspec": "~2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TomLingham\\Searchy\\": "src/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
