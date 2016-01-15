@@ -99,6 +99,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface
     {
         $this->query = \DB::table($this->table)
             ->select($this->columns)
+            ->where('deleted_at',NULL)
             ->addSelect($this->buildSelectQuery($this->searchFields))
             ->orderBy($this->relevanceFieldName, 'desc')
             ->having($this->relevanceFieldName, '>', 0);
