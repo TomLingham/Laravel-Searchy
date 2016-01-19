@@ -18,6 +18,8 @@ abstract class BaseSearchDriver implements SearchDriverInterface
 
     protected $query;
 
+    protected $trashed;
+
     /**
      * @param null  $table
      * @param array $searchFields
@@ -26,12 +28,13 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      *
      * @internal param $relevanceField
      */
-    public function __construct($table = null, $searchFields = [], $relevanceFieldName, $columns = ['*'])
+    public function __construct($table = null, $searchFields = [], $relevanceFieldName, $columns = ['*'],$trashed)
     {
         $this->searchFields = $searchFields;
         $this->table = $table;
         $this->columns = $columns;
         $this->relevanceFieldName = $relevanceFieldName;
+        $this->trashed = $trashed;
     }
 
     /**
@@ -97,12 +100,24 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      */
     protected function run()
     {
-        $this->query = \DB::table($this->table)
-            ->select($this->columns)
-            ->where('deleted_at',NULL)
-            ->addSelect($this->buildSelectQuery($this->searchFields))
-            ->orderBy($this->relevanceFieldName, 'desc')
-            ->having($this->relevanceFieldName, '>', 0);
+        // If they included trashed flag then give them all records including soft deletes
+        if($this->trashed)
+        {
+            $this->query = \DB::table($this->table)
+                ->select($this->columns)
+                ->addSelect($this->buildSelectQuery($this->searchFields))
+                ->orderBy($this->relevanceFieldName, 'desc')
+                ->having($this->relevanceFieldName, '>', 0);
+        }
+        else
+        {
+            $this->query = \DB::table($this->table)
+                ->select($this->columns)
+                ->where('deleted_at',NULL)
+                ->addSelect($this->buildSelectQuery($this->searchFields))
+                ->orderBy($this->relevanceFieldName, 'desc')
+                ->having($this->relevanceFieldName, '>', 0);
+        }
 
         return $this->query;
     }
