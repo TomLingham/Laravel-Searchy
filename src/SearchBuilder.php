@@ -28,7 +28,7 @@ class SearchBuilder
     /**
      * @var
      */
-    private $trashed = false;
+    private $joined;
 
     /**
      * @var
@@ -80,16 +80,25 @@ class SearchBuilder
 
 
     /**
-     * @param $trashed
+     * @param $joined
      *
      * @return $this
      */
-    public function trashed()
+    public function join($table,$field)
     {
-        $this->trashed = true;
+        $object = (object) [
+        'table' => $table,
+        'field' => $field
+        ];
+
+        $this->joined = $object;
 
         return $this;
     }
+
+
+
+
 
     /**
      * @param $table
@@ -122,7 +131,7 @@ class SearchBuilder
 
         // Create a new instance of the selected drivers 'class' and pass
         // through table and fields to search
-        $driverInstance = new $driver($this->table, $this->searchFields, $relevanceFieldName,['*'],$this->trashed);
+        $driverInstance = new $driver($this->table, $this->searchFields, $relevanceFieldName,['*'],$this->joined);
 
         return $driverInstance;
     }
