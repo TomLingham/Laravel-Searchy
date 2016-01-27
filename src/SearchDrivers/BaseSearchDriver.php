@@ -18,6 +18,8 @@ abstract class BaseSearchDriver implements SearchDriverInterface
 
     protected $query;
 
+    protected $joined;
+
     /**
      * @param null  $table
      * @param array $searchFields
@@ -26,12 +28,13 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      *
      * @internal param $relevanceField
      */
-    public function __construct($table = null, $searchFields = [], $relevanceFieldName, $columns = ['*'])
+    public function __construct($table = null, $searchFields = [], $relevanceFieldName, $columns = ['*'],$joined)
     {
         $this->searchFields = $searchFields;
         $this->table = $table;
         $this->columns = $columns;
         $this->relevanceFieldName = $relevanceFieldName;
+        $this->joined = $joined;
     }
 
     /**
@@ -97,11 +100,24 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      */
     protected function run()
     {
+
+        if(isset($this->joined))
+        {
         $this->query = \DB::table($this->table)
+            ->leftJoin($this->joined->table, $this->table.'.id', '=', $this->joined->table.'.'.$this->joined->field)
+            ->select($this->columns,$this->joined->table.'.'.$this->joined->field)
+            ->addSelect($this->buildSelectQuery($this->searchFields))
+            ->orderBy($this->relevanceFieldName, 'desc')
+            ->having($this->relevanceFieldName, '>', 0);
+        }
+        else
+        {
+            $this->query = \DB::table($this->table)
             ->select($this->columns)
             ->addSelect($this->buildSelectQuery($this->searchFields))
             ->orderBy($this->relevanceFieldName, 'desc')
             ->having($this->relevanceFieldName, '>', 0);
+        }
 
         return $this->query;
     }

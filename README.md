@@ -106,6 +106,15 @@ You can also override these methods using the following syntax when running a se
 Searchy::driver('fuzzy')->users('name')->query('Batman')->get();
 ```
 
+
+## Soft Deletes
+
+By default soft deletes will not be included in your results. However, if you wish to include soft deletes you can add do so by followin the below syntax.
+
+```php
+Searchy::trashed()->users('name')->query('Batman')->get();
+```
+
 ## Drivers
 
 Searchy takes advantage of 'Drivers' to handle matching various conditions of the fields you specify.
