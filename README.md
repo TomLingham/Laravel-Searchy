@@ -74,6 +74,12 @@ For example, if you want to search the name, email address and username of a use
 $users = Searchy::users('name', 'email', 'username')->query('John Smith')->get();
 ```
 
+If you need to build your table list dynamically, you can also pass an array of fields instead as the first argument (All other following arguments will be ignored):
+
+```php
+$users = Searchy::users(['name', 'email', 'username'])->query('John Smith')->get();
+```
+
 ### Searching Joined/Concatenated Columns
 
 Sometimes you may want to leverage searches on concatenated column. For example, on a `first_name` and `last_name` field but you only want to run the one query. To do this can separate columns with a double colon:

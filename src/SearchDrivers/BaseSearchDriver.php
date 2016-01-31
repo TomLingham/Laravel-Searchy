@@ -125,7 +125,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface
 
         return $this->query
             ->orderBy($this->relevanceFieldName, 'desc')
-            ->having($this->relevanceFieldName, '>', 0);;
+            ->having($this->relevanceFieldName, '>', 0);
     }
 
     /**
