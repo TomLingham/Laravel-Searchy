@@ -56,7 +56,15 @@ class SearchBuilder
      */
     public function fields(/* $fields */)
     {
-        $this->searchFields = func_get_args();
+        foreach (func_get_args() as $field) {
+            if (is_array($field)) {
+                foreach ($field as $fieldArray) {
+                    $this->searchFields[]  = $fieldArray;
+                }
+            } else {
+                $this->searchFields[] = $field;
+            }
+        }
 
         return $this->makeDriver();
     }
