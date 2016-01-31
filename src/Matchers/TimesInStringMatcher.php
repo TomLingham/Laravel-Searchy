@@ -20,8 +20,8 @@ class TimesInStringMatcher extends BaseMatcher
      */
     public function buildQueryString($column, $searchString)
     {
-        $query = "{$this->multiplier} * ROUND ((
-			CHAR_LENGTH($column) - CHAR_LENGTH( REPLACE ( LOWER($column), lower('$searchString'), ''))
+        $query = "{$this->multiplier} * ROUND((
+			CHAR_LENGTH($column) - CHAR_LENGTH( REPLACE( LOWER($column), lower('$searchString'), ''))
 		) / LENGTH('$searchString'))";
 
         return $query;

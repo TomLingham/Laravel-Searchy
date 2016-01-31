@@ -39,6 +39,6 @@ class ConsecutiveCharactersMatcher extends BaseMatcher
     {
         $searchString = $this->formatSearchString($rawString);
 
-        return "IF(REPLACE($column, '\.', '') {$this->operator} '$searchString', ROUND({$this->multiplier} * (CHAR_LENGTH( '$rawString' ) / CHAR_LENGTH( REPLACE($column, ' ', '') ))), 0)";
+        return "IF( REPLACE($column, '\.', '') {$this->operator} '$searchString', ROUND({$this->multiplier} * ( CHAR_LENGTH( '$rawString' ) / CHAR_LENGTH( REPLACE($column, ' ', '') ))), 0)";
     }
 }
