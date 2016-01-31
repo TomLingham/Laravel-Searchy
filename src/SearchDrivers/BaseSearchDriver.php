@@ -139,15 +139,30 @@ abstract class BaseSearchDriver implements SearchDriverInterface
 
         foreach ($searchFields as $searchField) {
             if (strpos($searchField, '::')) {
-                $concatString = str_replace('::', ", ' ', ", $searchField);
+
+                $concatString = implode(', ', array_map( [$this, 'sanitizeColumnName'] , explode('::', $searchField)));
+
                 $query[] = $this->buildSelectCriteria("CONCAT({$concatString})");
             } else {
-                $query[] = $this->buildSelectCriteria($searchField);
+                $query[] = $this->buildSelectCriteria($this->sanitizeColumnName($searchField));
             }
         }
 
-        return \DB::raw(implode(' + ', $query).' AS '.$this->relevanceFieldName);
+        return \DB::raw( implode(' + ', $query) . ' AS ' . $this->relevanceFieldName);
     }
+
+
+    /**
+     * Sanitize column names to prevent collisions with MySQL reserved words
+     *
+     * @param $name
+     * @return string
+     */
+    protected function sanitizeColumnName( $name ){
+        $name = trim($name, '` ');
+        return "`${name}`";
+    }
+
 
     /**
      * @param null $searchField
