@@ -2,6 +2,7 @@
 
 namespace TomLingham\Searchy\SearchDrivers;
 
+use Illuminate\Support\Facades\Schema;
 use TomLingham\Searchy\Interfaces\SearchDriverInterface;
 
 abstract class BaseSearchDriver implements SearchDriverInterface
@@ -18,7 +19,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface
 
     protected $query;
 
-    protected $trashed;
+    protected $withTrashed;
 
     /**
      * @param null  $table
@@ -28,14 +29,27 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      *
      * @internal param $relevanceField
      */
-    public function __construct($table = null, $searchFields = [], $relevanceFieldName, $columns = ['*'],$trashed)
+    public function __construct($table = null, $searchFields = [], $relevanceFieldName, $columns = ['*'])
     {
         $this->searchFields = $searchFields;
         $this->table = $table;
         $this->columns = $columns;
         $this->relevanceFieldName = $relevanceFieldName;
-        $this->trashed = $trashed;
     }
+
+
+    /**
+     * Specify whether to return soft deleted items or not
+     *
+     * @return $this
+     */
+    public function withTrashed()
+    {
+        $this->withTrashed = true;
+
+        return $this;
+    }
+
 
     /**
      * Specify which columns to return.
@@ -100,26 +114,18 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      */
     protected function run()
     {
-        // If they included trashed flag then give them all records including soft deletes
-        if($this->trashed)
-        {
-            $this->query = \DB::table($this->table)
-                ->select($this->columns)
-                ->addSelect($this->buildSelectQuery($this->searchFields))
-                ->orderBy($this->relevanceFieldName, 'desc')
-                ->having($this->relevanceFieldName, '>', 0);
-        }
-        else
-        {
-            $this->query = \DB::table($this->table)
-                ->select($this->columns)
-                ->where('deleted_at',NULL)
-                ->addSelect($this->buildSelectQuery($this->searchFields))
-                ->orderBy($this->relevanceFieldName, 'desc')
-                ->having($this->relevanceFieldName, '>', 0);
-        }
+        $this->query = \DB::table($this->table)
+            ->select($this->columns)
+            ->addSelect($this->buildSelectQuery($this->searchFields));
 
-        return $this->query;
+        // If they included withTrashed flag then give them all records including soft deletes
+        // Check to ensure the column exists before committing
+        if( ! $this->withTrashed && in_array('deleted_at', Schema::getColumnListing($this->table)) )
+            $this->query = $this->query->where('deleted_at', NULL);
+
+        return $this->query
+            ->orderBy($this->relevanceFieldName, 'desc')
+            ->having($this->relevanceFieldName, '>', 0);;
     }
 
     /**

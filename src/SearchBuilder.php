@@ -28,11 +28,6 @@ class SearchBuilder
     /**
      * @var
      */
-    private $trashed = false;
-
-    /**
-     * @var
-     */
     private $config;
 
     public function __construct(Repository $config)
@@ -78,19 +73,6 @@ class SearchBuilder
         return $this;
     }
 
-
-    /**
-     * @param $trashed
-     *
-     * @return $this
-     */
-    public function trashed()
-    {
-        $this->trashed = true;
-
-        return $this;
-    }
-
     /**
      * @param $table
      * @param $searchFields
@@ -122,7 +104,7 @@ class SearchBuilder
 
         // Create a new instance of the selected drivers 'class' and pass
         // through table and fields to search
-        $driverInstance = new $driver($this->table, $this->searchFields, $relevanceFieldName,['*'],$this->trashed);
+        $driverInstance = new $driver($this->table, $this->searchFields, $relevanceFieldName, ['*']);
 
         return $driverInstance;
     }

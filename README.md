@@ -82,6 +82,14 @@ Sometimes you may want to leverage searches on concatenated column. For example,
 $users = Searchy::users('first_name::last_name')->query('John Smith')->get();
 ```
 
+### Soft Deleted Records
+
+By default soft deletes will not be included in your results. However, if you wish to include soft deleted records you can do so by adding the `withTrashed()` after specifying your table and fields;
+
+```php
+Searchy::users('name')->withTrashed()->query('Batman')->get();
+```
+
 ### Return only specific columns
 You can specify which columns to return in your search:
 
@@ -104,15 +112,6 @@ You can also override these methods using the following syntax when running a se
 
 ```php
 Searchy::driver('fuzzy')->users('name')->query('Batman')->get();
-```
-
-
-## Soft Deletes
-
-By default soft deletes will not be included in your results. However, if you wish to include soft deletes you can add do so by followin the below syntax.
-
-```php
-Searchy::trashed()->users('name')->query('Batman')->get();
 ```
 
 ## Drivers

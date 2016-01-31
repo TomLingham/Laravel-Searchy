@@ -1,5 +1,5 @@
 {
-    "name": "jakeboyles/laravel-searchy",
+    "name": "tom-lingham/searchy",
     "description": "Laravel Searchy makes user driven searching easy with fuzzy search, basic string matching, Levenshtein Distance and more.",
     "keywords": ["laravel","search","fuzzy"],
     "license": "MIT",
@@ -18,7 +18,7 @@
     },
     "autoload": {
         "psr-4": {
-            "jakeboyles\\Searchy\\": "src/"
+            "TomLingham\\Searchy\\": "src/"
         }
     },
     "config": {
