@@ -158,8 +158,10 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      * @param $name
      * @return string
      */
-    protected function sanitizeColumnName( $name ){
-        $name = trim($name, '` ');
+    protected function sanitizeColumnName($name)
+    {
+        $name = str_replace('.', '`.`', trim($name, '` '));
+
         return "`${name}`";
     }
 
