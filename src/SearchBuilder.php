@@ -91,7 +91,7 @@ class SearchBuilder
      */
     private function makeDriver()
     {
-        $relevanceFieldName = $this->config->get('searchy.fieldName');
+        $relevanceFieldName = $this->config->get('searchy.field');
 
         // Check if default driver is being overridden, otherwise
         // load the default
@@ -102,7 +102,7 @@ class SearchBuilder
         }
 
         // Gets the details for the selected driver from the configuration file
-        $driver = $this->config->get("searchy.drivers.$driverName")['class'];
+        $driver = $this->config->get("searchy.drivers.$driverName");
 
         // Create a new instance of the selected drivers 'class' and pass
         // through table and fields to search
