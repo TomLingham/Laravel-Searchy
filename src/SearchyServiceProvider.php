@@ -2,67 +2,82 @@
 
 namespace TomLingham\Searchy;
 
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Foundation\Application as LaravelApplication;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Lumen\Application as LumenApplication;
 
+/**
+ * This is the searchy service provider class.
+ *
+ * @author Tom Lingham <tjlingham@gmail.com>
+ * @author Vincent Klaiber <hello@vinkla.com>
+ */
 class SearchyServiceProvider extends ServiceProvider
 {
     /**
-     * Indicates if loading of the provider is deferred.
+     * Boot the service provider.
      *
-     * @var bool
+     * @return void
      */
-    protected $defer = false;
-
-    /**
-     * Register the service provider.
-     */
-    public function register()
+    public function boot()
     {
-        //
+        $this->setupConfig();
     }
 
     /**
-     * Registers searchy.
+     * Setup the config.
+     *
+     * @return void
      */
-    public function registerSearchy()
-    {
-        // Laravel <= 5.1
-        $closure = function ($app) {
-            return new SearchBuilder( $app['config'] );
-        };
-
-
-        if ( method_exists($this->app, 'bindShared') )
-        {
-            $this->app->bindShared('searchy', $closure);
-        }
-
-        // Laravel 5.2 Goodness :)
-        else {
-            $this->app->singleton('searchy', $closure);
-        }
-    }
-
-    /**
-     * Loads the configuration file.
-     */
-    public function setupConfig()
+    protected function setupConfig()
     {
         $source = realpath(__DIR__.'/../config/searchy.php');
 
-        if (class_exists('Illuminate\Foundation\Application', false)) {
+        if ($this->app instanceof LaravelApplication && $this->app->runningInConsole()) {
             $this->publishes([$source => config_path('searchy.php')]);
+        } elseif ($this->app instanceof LumenApplication) {
+            $this->app->configure('searchy');
         }
 
         $this->mergeConfigFrom($source, 'searchy');
     }
 
     /**
-     * Boot the service provider.
+     * Register the service provider.
+     *
+     * @return void
      */
-    public function boot()
+    public function register()
     {
-        $this->setupConfig();
-        $this->registerSearchy();
+        $this->registerSearchBuilder();
+    }
+
+    /**
+     * Register the search builder class.
+     *
+     * @return void
+     */
+    public function registerSearchBuilder()
+    {
+        $this->app->singleton('searchy', function (Container $app) {
+            $config = $app['config'];
+
+            return new SearchBuilder($config);
+        });
+
+        $this->app->alias('searchy', HashidsFactory::class);
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return string[]
+     */
+    public function provides()
+    {
+        return [
+            'searchy',
+        ];
     }
 }

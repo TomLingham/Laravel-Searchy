@@ -10,15 +10,22 @@
         }
     ],
     "require": {
-        "php": ">=5.5.0",
-        "illuminate/support": "5.*"
+        "php": "^5.5.9 || ^7.0",
+        "illuminate/support": "5.1.* || 5.2.*"
     },
     "require-dev" :{
-        "phpspec/phpspec": "~2.0"
+        "graham-campbell/testbench": "^3.1",
+        "mockery/mockery": "^0.9.4",
+        "phpunit/phpunit": "^4.8 || ^5.0"
     },
     "autoload": {
         "psr-4": {
             "TomLingham\\Searchy\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "TomLingham\\Tests\\Searchy\\": "tests/"
         }
     },
     "config": {
