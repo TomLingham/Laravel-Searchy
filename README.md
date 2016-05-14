@@ -108,6 +108,19 @@ $users = Searchy::users('first_name::last_name')->select('first_name')->query('J
 
 This will, however, also return the `relevance` aliased column regardless of what is entered here.
 
+## How to get a Laravel Eloquent Collection
+
+Transforming the search results into a collection of Laravel Eloquent models is outside the scope of this project. However, an easy way to achieve this without hitting your database more than necessary is to use the Eloquent `fill()` method.
+
+```php
+$users = collect(array_map(function($result) {
+	return (new \App\User())->fill(get_object_vars($result));
+}, Searchy::users('name', 'email')->query('Andrew')->get()));
+```
+
+All this does it map a function over the Searchy results and then creates a new instance of the User model and hydrates the model using the `fill()` method.
+Then once it has an array of all the Eloquent User models, it simply uses the Laravel `collect()` method to return the array as Laravel Collection which is the same as you would receive from querying the Laravel model directly. `get_object_vars()` is simply a PHP method to extract the accessible object variables as an associative array.
+
 ## Configuration
 
 You can publish the configuration file to your `app` directory and override the settings by running `php artisan vendor:publish` to copy the configuration to your config folder as `searchy.php`
