@@ -27,9 +27,8 @@ abstract class BaseMatcher implements MatcherInterface
      */
     public function buildQueryString($column, $searchString)
     {
-        if (method_exists($this, 'formatSearchString')) {
+        if (method_exists($this, 'formatSearchString'))
             $searchString = $this->formatSearchString($searchString);
-        }
 
         return "IF($column {$this->operator} '$searchString', {$this->multiplier}, 0)";
     }

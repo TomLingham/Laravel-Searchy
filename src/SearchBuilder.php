@@ -42,11 +42,10 @@ class SearchBuilder
      */
     public function search($searchable)
     {
-        if (is_object($searchable) && method_exists($searchable, 'getTable')) {
-            $this->table = $searchable->getTable();
-        } else {
-            $this->table = $searchable;
-        }
+        // Check if table name or Eloquent
+        $isEloquent = is_object($searchable) && method_exists($searchable, 'getTable');
+
+        $this->table = $isEloquent ? $searchable->getTable() : $searchable;
 
         return $this;
     }
@@ -95,18 +94,17 @@ class SearchBuilder
 
         // Check if default driver is being overridden, otherwise
         // load the default
-        if ($this->driverName) {
-            $driverName = $this->driverName;
-        } else {
-            $driverName = $this->config->get('searchy.default');
-        }
+        $driverName = $this->driverName ? $this->driverName : $this->config->get('searchy.default');
 
         // Gets the details for the selected driver from the configuration file
         $driver = $this->config->get("searchy.drivers.$driverName")['class'];
 
         // Create a new instance of the selected drivers 'class' and pass
         // through table and fields to search
-        $driverInstance = new $driver($this->table, $this->searchFields, $relevanceFieldName, ['*']);
+        $driverInstance = new $driver( $this->table,
+                                       $this->searchFields,
+                                       $relevanceFieldName,
+                                       ['*']);
 
         return $driverInstance;
     }
