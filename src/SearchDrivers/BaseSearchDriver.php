@@ -193,6 +193,11 @@ abstract class BaseSearchDriver implements SearchDriverInterface
     {
         $matcher = new $matcherClass($multiplier);
 
-        return $matcher->buildQueryString($searchField, $this->searchString);
+        return $matcher->buildQueryString($this->coalesce($searchField), $this->searchString);
+    }
+
+    private function coalesce($field)
+    {
+      return "COALESCE($field, '')";
     }
 }
