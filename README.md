@@ -64,6 +64,16 @@ $users = Searchy::search('users')->fields('name', 'email')->query('John Smith')
     ->getQuery()->having('relevance', '>', 20)->get();
 ```
 
+### Limit on results returned
+
+To limit your results, you can use Laravel's built in DatabaseQuery Builder method and chain further methods to narrow your results.
+
+```php
+// Only get the top 10 results
+$users = Searchy::search('users')->fields('name', 'email')->query('John Smith')
+    ->getQuery()->limit(10)->get();
+```
+
 ### Searching multiple Columns
 
 You can also add multiple arguments to the list of fields/columns to search by.
@@ -118,7 +128,7 @@ $users = collect(array_map(function($result) {
 }, Searchy::users('name', 'email')->query('Andrew')->get()));
 ```
 
-All this does it map a function over the Searchy results and then creates a new instance of the User model and hydrates the model using the `fill()` method.
+All this does is map a function over the Searchy results and then creates a new instance of the User model and hydrates the model using the `fill()` method.
 Then once it has an array of all the Eloquent User models, it simply uses the Laravel `collect()` method to return the array as Laravel Collection which is the same as you would receive from querying the Laravel model directly. `get_object_vars()` is simply a PHP method to extract the accessible object variables as an associative array.
 
 ## Configuration
