@@ -134,7 +134,8 @@ Then once it has an array of all the Eloquent User models, it simply uses the La
 ## Unicode Characters Support
 
 If you are having issues with the returned results because you have unicode characters in your search data, you can use the `FuzzySearchUnicodeDriver`.
-*PLEASE NOTE: There is no sanitization of strings passed through to the `FuzzySearchUnicodeDriver` prior to inserting into raw MySQL statements. You will have to sanitize the string yourself first or risk opening up your application to SQL injection attacks. You have been warned.*
+
+_PLEASE NOTE: There is no sanitization of strings passed through to the `FuzzySearchUnicodeDriver` prior to inserting into raw MySQL statements. You will have to sanitize the string yourself first or risk opening up your application to SQL injection attacks. You have been warned._
 
 To use, first follow the instructions to publish your configuration file (`php artisan vendor:publish`) and change your default driver from `fuzzy` to `ufuzzy`.
 
