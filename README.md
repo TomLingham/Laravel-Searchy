@@ -131,6 +131,24 @@ $users = collect(array_map(function($result) {
 All this does is map a function over the Searchy results and then creates a new instance of the User model and hydrates the model using the `fill()` method.
 Then once it has an array of all the Eloquent User models, it simply uses the Laravel `collect()` method to return the array as Laravel Collection which is the same as you would receive from querying the Laravel model directly. `get_object_vars()` is simply a PHP method to extract the accessible object variables as an associative array.
 
+## Unicode Characters Support
+
+If you are having issues with the returned results because you have unicode characters in your search data, you can use the `FuzzySearchUnicodeDriver`.
+*PLEASE NOTE: There is no sanitization of strings passed through to the `FuzzySearchUnicodeDriver` prior to inserting into raw MySQL statements. You will have to sanitize the string yourself first or risk opening up your application to SQL injection attacks. You have been warned.*
+
+To use, first follow the instructions to publish your configuration file (`php artisan vendor:publish`) and change your default driver from `fuzzy` to `ufuzzy`.
+
+```php
+
+return [
+
+    'default' => 'ufuzzy',
+
+		...
+]
+
+```
+
 ## Configuration
 
 You can publish the configuration file to your `app` directory and override the settings by running `php artisan vendor:publish` to copy the configuration to your config folder as `searchy.php`
