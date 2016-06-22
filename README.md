@@ -124,11 +124,11 @@ Transforming the search results into a collection of Laravel Eloquent models is 
 
 ```php
 $users = collect(array_map(function($result) {
-	return (new \App\User())->fill(get_object_vars($result));
+	return (new \App\User())->forceFill(get_object_vars($result));
 }, Searchy::users('name', 'email')->query('Andrew')->get()));
 ```
 
-All this does is map a function over the Searchy results and then creates a new instance of the User model and hydrates the model using the `fill()` method.
+All this does is map a function over the Searchy results and then creates a new instance of the User model and hydrates the model using the `forceFill()` method.
 Then once it has an array of all the Eloquent User models, it simply uses the Laravel `collect()` method to return the array as Laravel Collection which is the same as you would receive from querying the Laravel model directly. `get_object_vars()` is simply a PHP method to extract the accessible object variables as an associative array.
 
 ## Unicode Characters Support
