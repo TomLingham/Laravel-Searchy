@@ -123,9 +123,7 @@ This will, however, also return the `relevance` aliased column regardless of wha
 Transforming the search results into a collection of Laravel Eloquent models is outside the scope of this project. However, an easy way to achieve this without hitting your database more than necessary is to use the Eloquent `fill()` method.
 
 ```php
-$users = collect(array_map(function($result) {
-	return (new \App\User())->forceFill(get_object_vars($result));
-}, Searchy::users('name', 'email')->query('Andrew')->get()));
+$users = \App\User::hydrate(Searchy::users('name', 'email')->query('Andrew')->get());
 ```
 
 All this does is map a function over the Searchy results and then creates a new instance of the User model and hydrates the model using the `forceFill()` method.
