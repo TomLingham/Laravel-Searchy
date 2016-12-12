@@ -72,7 +72,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      */
     public function query($searchString)
     {
-        $this->searchString = trim(\DB::connection()->getPdo()->quote($searchString), "'");
+        $this->searchString = substr(substr(\DB::connection()->getPdo()->quote($searchString), 1), 0, -1);
 
         return $this;
     }
