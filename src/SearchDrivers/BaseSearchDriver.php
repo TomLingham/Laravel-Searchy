@@ -133,7 +133,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      *
      * @return array|\Illuminate\Database\Query\Expression
      */
-    protected function buildSelectQuery(array $searchFields)
+    public function buildSelectQuery(array $searchFields)
     {
         $query = [];
 

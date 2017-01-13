@@ -1,6 +1,6 @@
 {
-    "name": "tom-lingham/searchy",
-    "description": "Laravel Searchy makes user driven searching easy with fuzzy search, basic string matching, Levenshtein Distance and more.",
+    "name": "martinvandersteen/searchy",
+    "description": "tom-lingham/search but with public buildSelectQuery method to allow usage from model",
     "keywords": ["laravel","search","fuzzy"],
     "license": "MIT",
     "authors": [
