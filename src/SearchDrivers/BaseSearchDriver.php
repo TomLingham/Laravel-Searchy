@@ -99,6 +99,17 @@ abstract class BaseSearchDriver implements SearchDriverInterface
     }
 
     /**
+     * Returns an instance of the Laravel Fluent Database Query Expression Object with the search
+     * queries applied.
+     *
+     * @return array|\Illuminate\Database\Query\Expression
+     */
+    public function getSelectQuery()
+    {
+      return $this->buildSelectQuery($this->searchFields);
+    }
+
+    /**
      * Runs the 'having' method directly on the Laravel Fluent Database Query Object
      * and returns the instance of the object.
      *
@@ -133,7 +144,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      *
      * @return array|\Illuminate\Database\Query\Expression
      */
-    public function buildSelectQuery(array $searchFields)
+    protected function buildSelectQuery(array $searchFields)
     {
         $query = [];
 
