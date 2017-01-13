@@ -1,6 +1,6 @@
 {
-    "name": "martinvandersteen/searchy",
-    "description": "tom-lingham/search but with public buildSelectQuery method to allow usage from model",
+    "name": "tom-lingham/searchy",
+    "description": "tom-lingham/searchy but with public buildSelectQuery method to allow usage from model",
     "keywords": ["laravel","search","fuzzy"],
     "license": "MIT",
     "authors": [
