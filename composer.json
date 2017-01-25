@@ -11,7 +11,7 @@
     ],
     "require": {
         "php": "^5.5.9 || ^7.0",
-        "illuminate/support": "5.1.* || 5.2.* || 5.3.*"
+        "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.*"
     },
     "require-dev" :{
         "graham-campbell/testbench": "^3.1",
