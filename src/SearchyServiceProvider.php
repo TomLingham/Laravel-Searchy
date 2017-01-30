@@ -66,7 +66,7 @@ class SearchyServiceProvider extends ServiceProvider
             return new SearchBuilder($config);
         });
 
-        $this->app->alias('searchy', HashidsFactory::class);
+        $this->app->alias('searchy', SearchBuilder::class);
     }
 
     /**
