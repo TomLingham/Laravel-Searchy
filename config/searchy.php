@@ -12,6 +12,10 @@ return [
             'class' => 'TomLingham\Searchy\SearchDrivers\FuzzySearchDriver',
         ],
 
+        'ambi' => [
+            'class' => 'TomLingham\Searchy\SearchDrivers\AmbiSearchDriver',
+        ],
+
         'ufuzzy' => [
             'class' => 'TomLingham\Searchy\SearchDrivers\FuzzySearchUnicodeDriver',
         ],

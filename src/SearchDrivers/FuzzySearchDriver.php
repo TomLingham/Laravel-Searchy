@@ -4,9 +4,6 @@ namespace TomLingham\Searchy\SearchDrivers;
 
 class FuzzySearchDriver extends BaseSearchDriver
 {
-    /**
-     * @var array
-     */
     protected $matchers = [
         \TomLingham\Searchy\Matchers\ExactMatcher::class                 => 100,
         \TomLingham\Searchy\Matchers\StartOfStringMatcher::class         => 50,
@@ -16,5 +13,5 @@ class FuzzySearchDriver extends BaseSearchDriver
         \TomLingham\Searchy\Matchers\StudlyCaseMatcher::class            => 32,
         \TomLingham\Searchy\Matchers\InStringMatcher::class              => 30,
         \TomLingham\Searchy\Matchers\TimesInStringMatcher::class         => 8,
-];
+    ];
 }
