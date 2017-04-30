@@ -19,6 +19,6 @@ class LevenshteinMatcher extends BaseMatcher
      */
     public function buildQueryString($column, $searchString)
     {
-        return "levenshtein($column, '$searchString')";
+        return "FLOOR(((255 - levenshtein($column, '$searchString')) / 255) * 100)";
     }
 }
