@@ -121,7 +121,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface
         // If they included withTrashed flag then give them all records including soft deletes
         // Check to ensure the column exists before committing
         if( ! $this->withTrashed && in_array('deleted_at', Schema::getColumnListing($this->table)) )
-            $this->query = $this->query->where('deleted_at', NULL);
+            $this->query = $this->query->where(\DB::raw("`{$this->table}`.`deleted_at`"), NULL);
 
         return $this->query
             ->orderBy($this->relevanceFieldName, 'desc')
