@@ -123,9 +123,14 @@ abstract class BaseSearchDriver implements SearchDriverInterface
         if( ! $this->withTrashed && in_array('deleted_at', Schema::getColumnListing($this->table)) )
             $this->query = $this->query->where('deleted_at', NULL);
 
-        return $this->query
-            ->orderBy($this->relevanceFieldName, 'desc')
-            ->having($this->relevanceFieldName, '>', 0);
+        if (env('DB_CONNECTION')=='mysql') {
+            return $this->query
+                ->orderBy($this->relevanceFieldName, 'desc')
+                ->having($this->relevanceFieldName, '>', 0);
+        }else if (env('DB_CONNECTION')=='pgsql') {
+            return $this->query
+                ->orderBy($this->relevanceFieldName, 'desc');
+        }
     }
 
     /**
@@ -162,7 +167,11 @@ abstract class BaseSearchDriver implements SearchDriverInterface
     {
         $name = str_replace('.', '`.`', trim($name, '` '));
 
-        return "`${name}`";
+        if (env('DB_CONNECTION')=='mysql') {
+            return "`${name}`";
+        }else if (env('DB_CONNECTION')=='pgsql') {
+            return "${name}";
+        }
     }
 
 
