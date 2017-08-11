@@ -10,13 +10,13 @@
         }
     ],
     "require": {
-        "php": "^5.5.9 || >=7.0",
+        "php": "^7.0",
         "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.*"
     },
     "require-dev" :{
-        "graham-campbell/testbench": "^3.1",
-        "mockery/mockery": "^0.9.4",
-        "phpunit/phpunit": "^4.8 || ^5.0"
+        "graham-campbell/testbench": "^4.0",
+        "mockery/mockery": "dev-master#c90a17247147543081e4d00f46911e422b49e583",
+        "phpunit/phpunit": "^6.3"
     },
     "autoload": {
         "psr-4": {
