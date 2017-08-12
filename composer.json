@@ -10,13 +10,12 @@
         }
     ],
     "require": {
-        "php": "^5.5.9 || >=7.0",
-        "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.*"
+        "php": "^5.5.9 || ^7.0",
+        "illuminate/support": "5.1.* || 5.2.* || 5.3.* || 5.4.* || 5.5.*"
     },
-    "require-dev" :{
-        "graham-campbell/testbench": "^3.1",
-        "mockery/mockery": "^0.9.4",
-        "phpunit/phpunit": "^4.8 || ^5.0"
+    "require-dev": {
+        "graham-campbell/testbench": "^3.4 || ^4.0",
+        "phpunit/phpunit": "^4.8 || ^5.7 || ^6.3"
     },
     "autoload": {
         "psr-4": {
@@ -30,6 +29,19 @@
     },
     "config": {
         "preferred-install": "dist"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "3.0-dev"
+        },
+        "laravel": {
+            "providers": [
+                "TomLingham\\Searchy\\SearchyServiceProvider"
+            ],
+            "aliases": {
+                "Searchy": "TomLingham\\Searchy\\Facades\\Searchy"
+            }
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true
