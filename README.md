@@ -1,5 +1,3 @@
-![Tom Lingham Laravel Searchy](http://tomlingham.com/github/header-searchy.png)
-
 ## Laravel 5+ Searchy
 
 ### Database Searching Made Easy
@@ -20,8 +18,8 @@ Add `"tom-lingham/searchy" : "2.*"` to your composer.json file under `require`:
 
 ```json
 "require": {
-	"laravel/framework": "5.*",
-	"tom-lingham/searchy" : "2.*"
+  "laravel/framework": "5.*",
+  "tom-lingham/searchy" : "2.*"
 }
 ```
 
@@ -98,7 +96,7 @@ Sometimes you may want to leverage searches on concatenated column. For example,
 $users = Searchy::users('first_name::last_name')->query('John Smith')->get();
 ```
 
-### Soft Deleted Records
+### Soft Deleted Records
 
 By default soft deletes will not be included in your results. However, if you wish to include soft deleted records you can do so by adding the `withTrashed()` after specifying your table and fields;
 
@@ -142,12 +140,12 @@ return [
 
     'default' => 'ufuzzy',
 
-		...
+  ...
 ]
 
 ```
 
-## Configuration
+## Configuration
 
 You can publish the configuration file to your `app` directory and override the settings by running `php artisan vendor:publish` to copy the configuration to your config folder as `searchy.php`
 
@@ -159,7 +157,7 @@ You can also override these methods using the following syntax when running a se
 Searchy::driver('fuzzy')->users('name')->query('Batman')->get();
 ```
 
-## Drivers
+## Drivers
 
 Searchy takes advantage of 'Drivers' to handle matching various conditions of the fields you specify.
 
@@ -173,9 +171,9 @@ The Simple search driver only uses 3 matchers each with the relevant multipliers
 
 ```php
 protected $matchers = [
-	'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
-	'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
-	'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
+  'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
+  'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
+  'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
 ];
 ```
 
@@ -185,14 +183,14 @@ The Fuzzy Search Driver is simply another group of matchers setup as follows. Th
 
 ```php
 protected $matchers = [
-	'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
-	'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
-	'TomLingham\Searchy\Matchers\AcronymMatcher'               => 42,
-	'TomLingham\Searchy\Matchers\ConsecutiveCharactersMatcher' => 40,
-	'TomLingham\Searchy\Matchers\StartOfWordsMatcher'          => 35,
-	'TomLingham\Searchy\Matchers\StudlyCaseMatcher'            => 32,
-	'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
-	'TomLingham\Searchy\Matchers\TimesInStringMatcher'         => 8,
+  'TomLingham\Searchy\Matchers\ExactMatcher'                 => 100,
+  'TomLingham\Searchy\Matchers\StartOfStringMatcher'         => 50,
+  'TomLingham\Searchy\Matchers\AcronymMatcher'               => 42,
+  'TomLingham\Searchy\Matchers\ConsecutiveCharactersMatcher' => 40,
+  'TomLingham\Searchy\Matchers\StartOfWordsMatcher'          => 35,
+  'TomLingham\Searchy\Matchers\StudlyCaseMatcher'            => 32,
+  'TomLingham\Searchy\Matchers\InStringMatcher'              => 30,
+  'TomLingham\Searchy\Matchers\TimesInStringMatcher'         => 8,
 ];
 ```
 
@@ -202,11 +200,11 @@ The Levenshtein Search Driver uses the Levenshetein Distance to calculate the 'd
 
 ```php
 protected $matchers = [
-	'TomLingham\Searchy\Matchers\LevenshteinMatcher' => 100
+  'TomLingham\Searchy\Matchers\LevenshteinMatcher' => 100
 ];
 ```
 
-## Matchers
+## Matchers
 
 ### ExactMatcher
 
@@ -255,7 +253,7 @@ For example, a search for 'tha' would match; 'I hope that that cat has caught th
 
 See *Levenshtein Driver*
 
-## Extending
+## Extending
 
 ### Drivers
 
@@ -265,7 +263,7 @@ It's really easy to roll your own search drivers. Simply create a class that ext
 
 To create your own matchers, you can create your own class that extends `TomLingham\Searchy\Matchers\BaseMatcher` and (for simple Matchers) override the `formatQuery` method to return a string formatted with `%` wildcards in required locations. For more advanced extensions you may need to override the `buildQuery` method and others as well.
 
-## Contributing & Reporting Bugs
+## Contributing & Reporting Bugs
 
 If you would like to improve on the code that is here, feel free to submit a pull request.
 
