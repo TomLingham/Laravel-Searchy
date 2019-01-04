@@ -7,8 +7,6 @@ use TomLingham\Searchy\Interfaces\SearchDriverInterface;
 
 abstract class BaseSearchDriver implements SearchDriverInterface
 {
-    protected $table;
-
     protected $columns;
 
     protected $searchFields;
@@ -29,10 +27,10 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      *
      * @internal param $relevanceField
      */
-    public function __construct($table = null, $searchFields = [], $relevanceFieldName, $columns = ['*'])
+    public function __construct($query = null, $searchFields = [], $relevanceFieldName, $columns = ['*'])
     {
         $this->searchFields = $searchFields;
-        $this->table = $table;
+        $this->query = $query;
         $this->columns = $columns;
         $this->relevanceFieldName = $relevanceFieldName;
     }
@@ -114,7 +112,7 @@ abstract class BaseSearchDriver implements SearchDriverInterface
      */
     protected function run()
     {
-        $this->query = \DB::table($this->table)
+        $this->query = $this->query
             ->select($this->columns)
             ->addSelect($this->buildSelectQuery($this->searchFields));
 

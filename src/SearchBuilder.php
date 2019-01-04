@@ -13,7 +13,7 @@ class SearchBuilder
     /**
      * @var
      */
-    private $table;
+    private $query;
 
     /**
      * @var
@@ -45,7 +45,7 @@ class SearchBuilder
         // Check if table name or Eloquent
         $isEloquent = is_object($searchable) && method_exists($searchable, 'getTable');
 
-        $this->table = $isEloquent ? $searchable->getTable() : $searchable;
+        $this->query = $isEloquent ? $searchable: app('db')->table($searchable);
 
         return $this;
     }
@@ -101,7 +101,7 @@ class SearchBuilder
 
         // Create a new instance of the selected drivers 'class' and pass
         // through table and fields to search
-        $driverInstance = new $driver( $this->table,
+        $driverInstance = new $driver( $this->query,
                                        $this->searchFields,
                                        $relevanceFieldName,
                                        ['*']);
