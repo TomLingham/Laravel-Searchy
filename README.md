@@ -1,3 +1,11 @@
+## !! UMAINTAINED !! This package is no longer maintained
+
+Please see [Issue #117](https://github.com/TomLingham/Laravel-Searchy/issues/117)
+
+Here are some links to alternatives that you main be able to use (I do not guarantee the suitability or the quality of these projects, please ensure you do your own due dilligence in ensuring they meet your requirements):
+
+- TODO
+
 ## Laravel 5+ Searchy
 
 ### Database Searching Made Easy
