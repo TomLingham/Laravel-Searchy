@@ -1,4 +1,4 @@
-## !! UMAINTAINED !! This package is no longer maintained
+## !! UNMAINTAINED !! This package is no longer maintained
 
 Please see [Issue #117](https://github.com/TomLingham/Laravel-Searchy/issues/117)
 
