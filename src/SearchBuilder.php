@@ -101,10 +101,12 @@ class SearchBuilder
 
         // Create a new instance of the selected drivers 'class' and pass
         // through table and fields to search
-        $driverInstance = new $driver( $this->table,
-                                       $this->searchFields,
-                                       $relevanceFieldName,
-                                       ['*']);
+        $driverInstance = new $driver(
+            $relevanceFieldName,
+            $this->table,
+            $this->searchFields,
+            ['*']
+        );
 
         return $driverInstance;
     }

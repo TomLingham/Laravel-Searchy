@@ -1,3 +1,5 @@
+## Laravel Searchy - replacing todayqq/searchy (which was a PHP8 fork of TomLingham/Laravle-Searchy) which no longer exists.
+
 ## !! UNMAINTAINED !! This package is no longer maintained
 
 Please see [Issue #117](https://github.com/TomLingham/Laravel-Searchy/issues/117)
